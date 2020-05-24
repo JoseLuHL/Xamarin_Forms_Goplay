@@ -23,6 +23,7 @@
                 <DatePicker Style="{StaticResource fuenteLabel}" 
                             TextColor="White"
                             x:Name="date"
+                            MinimumDate="{Binding FechaMin}"
                             DateSelected="date_DateSelected"
                             Date="{Binding Fecha}"
                             Format="D"

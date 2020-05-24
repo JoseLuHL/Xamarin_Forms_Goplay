@@ -2,6 +2,7 @@
 using PropertyApp.VistaModelo;
 using System;
 using System.Collections.Generic;
+using WorkingWithMaps.Modelo;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Xamarin.Forms.PlatformConfiguration.TizenSpecific;
@@ -12,12 +13,13 @@ namespace WorkingWithMaps
     {
         //List<Pin> boardwalkPin;
         MainPageVistaModel contexto => ((MainPageVistaModel)BindingContext);
+        Property property;
         public PinPage()
         {
             InitializeComponent();
             //contexto.PropertyTypeList
             map.IsShowingUser = true;
-            
+
             //Pin boardwalkPin = new Pin
             //{
             //    Position = new Position(5.687629, -76.659698),
@@ -27,17 +29,40 @@ namespace WorkingWithMaps
             //};
 
             //map.Pins.Add(boardwalkPin);
-        
+
+        }
+
+        public PinPage(Property property)
+        {
+            InitializeComponent();
+            //contexto.PropertyTypeList
+            map.IsShowingUser = true;
+            this.property = property;
+
         }
 
         protected override void OnAppearing()
         {
-            Cargar();
-            
+            if (property != null)
+            {
+                Pin listPin = new Pin
+                {
+                    Position = new Position(property.Lat, property.Lng),
+                    AutomationId = property.Id,
+                    Label = property.Price,
+                    Address = property.Space,
+                    Type = PinType.Place
+                };
+                map.Pins.Add(listPin);
+
+            }
+            else
+                Cargar();
+
             base.OnAppearing();
         }
 
-        public void Cargar ()
+        public void Cargar()
         {
             Pin boardwalkPin = new Pin();
             Pin listPin = new Pin();
@@ -96,10 +121,10 @@ namespace WorkingWithMaps
 
         async void OnInfoWindowClickedAsync(object sender, PinClickedEventArgs e)
         {
-            var property = (sender as View).BindingContext as WorkingWithMaps.Modelo.Property;
+            var property = ((Pin)sender).BindingContext as Property;
             string pinName = ((Pin)sender).Label;
-            await DisplayAlert("", property.Price , "Ok");
-            await Navigation.PushAsync(new DetailsPage(property));
+            //await DisplayAlert("", property.Price , "Ok");
+            await Navigation.PushModalAsync(new DetailsPage(property));
         }
     }
 }

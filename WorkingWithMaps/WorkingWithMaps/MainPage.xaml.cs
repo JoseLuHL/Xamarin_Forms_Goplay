@@ -105,9 +105,9 @@ namespace PropertyApp
             contexto.IsLogueado = true;
         }
 
-        private void BtnConfiguracion_Tapped_1(object sender, EventArgs e)
+        private async void BtnConfiguracion_Tapped_1(object sender, EventArgs e)
         {
-
+            await DisplayAlert("", "Imagen", "OK");
         }
     }
 }

@@ -57,13 +57,21 @@ namespace PropertyApp.VistaModelo
         private string fecha = DateTime.Now.Date.ToShortDateString();
         public string Fecha
         {
-            get => fecha;
+            get => fecha ;
             set
             {
-                SetProperty(ref fecha, value.Substring(0, 10));
+                SetProperty(ref fecha, value);
                 SetProperty(ref concepto, value);
             }
         }
+
+        
+
+        public DateTime FechaMin
+        {
+            get => DateTime.Now.Date;
+        }
+
 
         public ICommand FechaComando => new Command(async () =>
         {

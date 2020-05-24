@@ -4,6 +4,7 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:PanCake="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" xmlns:vm="clr-namespace:PlacesApp.ViewModels.Equipo"
              mc:Ignorable="d"
+             NavigationPage.HasNavigationBar="False"
              x:Class="PlacesApp.Views.MisReservas">
 
  

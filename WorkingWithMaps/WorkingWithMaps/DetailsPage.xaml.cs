@@ -1,12 +1,16 @@
 ﻿using PlacesApp.Views;
+using Plugin.Messaging;
 using PropertyApp.VistaModelo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WorkingWithMaps;
 using WorkingWithMaps.Modelo;
+using Xamarin.Essentials;
 using Xamarin.Forms;
+using Xamarin.Forms.OpenWhatsApp;
 using Xamarin.Forms.Xaml;
 
 namespace PropertyApp
@@ -29,7 +33,7 @@ namespace PropertyApp
 
         private void GoBack(object sender, EventArgs e)
         {
-            this.Navigation.PopAsync();
+            this.Navigation.PopModalAsync();
         }
 
         protected override void OnAppearing()
@@ -42,7 +46,49 @@ namespace PropertyApp
         private async void BtnReservar_Clicked(object sender, EventArgs e)
         {
             
-            await Navigation.PushAsync(new PgReserva (cont.Id));
+            await Navigation.PushModalAsync(new PgReserva (cont.Id));
+        }
+
+        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        {
+            try
+            {
+                PhoneDialer.Open(cont.Bed);
+            }
+            catch (ArgumentNullException anEx)
+            {
+                // Number was null or white space
+                DisplayAlert("","No se ha proporcionado numero telefonico","OK");
+            }
+            catch (FeatureNotSupportedException ex)
+            {
+                DisplayAlert("", "No se ha proporcionado numero telefonico", "OK");
+
+                // Phone Dialer is not supported on this device.
+            }
+            catch (Exception ex)
+            {
+                DisplayAlert("", "No se ha proporcionado numero telefonico", "OK");
+
+            }
+
+        }
+
+        private async void TapGestureRecognizer_Tapped_1(object sender, EventArgs e)
+        {
+            try
+            {
+                Chat.Open("+57"+ cont.Bed, "Hola!");
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", ex.Message, "OK");
+            }
+        }
+
+        private async void TapGestureRecognizer_Tapped_2(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new PinPage(cont));
         }
     }
 }

@@ -36,19 +36,37 @@
                     <StackLayout Orientation="Horizontal" Spacing="30" HorizontalOptions="Center">
                         <StackLayout>
                             <pv:PancakeView BackgroundColor="#E9E9E9" HeightRequest="50" WidthRequest="50" CornerRadius="30" HorizontalOptions="Center">
-                                <Image WidthRequest="16" HeightRequest="16" Source="phone.png" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                <Image WidthRequest="16" HeightRequest="16" Source="phone.png" HorizontalOptions="Center" VerticalOptions="Center">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer 
+                                            Tapped="TapGestureRecognizer_Tapped"
+                                            NumberOfTapsRequired="1" />
+                                    </Image.GestureRecognizers>
+                                </Image>
                             </pv:PancakeView>
                             <Label Style="{StaticResource fuenteLabel}" Text="LLamar" TextColor="#8D8D8D" FontSize="14"  HorizontalTextAlignment="Center"/>
                         </StackLayout>
                         <StackLayout>
                             <pv:PancakeView BackgroundColor="#E9E9E9" HeightRequest="50" WidthRequest="50" CornerRadius="30" HorizontalOptions="Center">
-                                <Image WidthRequest="16" HeightRequest="16" Source="email.png" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                <Image WidthRequest="16" HeightRequest="16" Source="email.png" HorizontalOptions="Center" VerticalOptions="Center">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer 
+                                            Tapped="TapGestureRecognizer_Tapped_1"
+                                            NumberOfTapsRequired="1" />
+                                    </Image.GestureRecognizers>
+                                </Image>
                             </pv:PancakeView>
-                            <Label Style="{StaticResource fuenteLabel}" Text="Email" TextColor="#8D8D8D" FontSize="14"  HorizontalTextAlignment="Center"/>
+                            <Label Style="{StaticResource fuenteLabel}" Text="Whatsapp" TextColor="#8D8D8D" FontSize="14"  HorizontalTextAlignment="Center"/>
                         </StackLayout>
                         <StackLayout>
                             <pv:PancakeView BackgroundColor="#E9E9E9" HeightRequest="50" WidthRequest="50" CornerRadius="30" HorizontalOptions="Center">
-                                <Image WidthRequest="16" HeightRequest="16" Source="map.png" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                <Image WidthRequest="16" HeightRequest="16" Source="map.png" HorizontalOptions="Center" VerticalOptions="Center">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer 
+                                            Tapped="TapGestureRecognizer_Tapped_2"
+                                            NumberOfTapsRequired="1" />
+                                    </Image.GestureRecognizers>
+                                </Image>
                             </pv:PancakeView>
                             <Label Style="{StaticResource fuenteLabel}" Text="Mapa" TextColor="#8D8D8D" FontSize="14" HorizontalTextAlignment="Center"/>
                         </StackLayout>
