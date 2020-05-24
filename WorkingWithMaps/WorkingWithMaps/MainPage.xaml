@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:st="clr-namespace:Plugin.SharedTransitions;assembly=Plugin.SharedTransitions"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:pv="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" 
+             xmlns:vm="clr-namespace:PlacesApp.ViewModels.Equipo" 
+             xmlns:vm1="clr-namespace:PropertyApp.VistaModelo"
+             st:SharedTransitionNavigationPage.TransitionSelectedGroup="products"
+             mc:Ignorable="d" NavigationPage.HasNavigationBar="False"
+             x:Class="PropertyApp.MainPage">
+    <ContentPage.BindingContext>
+        <vm1:MainPageVistaModel/>
+    </ContentPage.BindingContext>
+
+    <Grid BackgroundColor="#F9F9F9" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <Frame HasShadow="True" BackgroundColor="{StaticResource colorBoton}" Padding="0" HeightRequest="40" HorizontalOptions="FillAndExpand">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <!--<Image HeightRequest="20" WidthRequest="20" Margin="20,0" Source="search.png"/>-->
+                <!--<SearchBar Grid.Column="1" SearchCommand="{Binding BuscarComando}" x:Name="searchBar" 
+                           TextColor="Black" FontFamily="ThemeFontRegular" HorizontalOptions="FillAndExpand" 
+                           VerticalOptions="Center" FontSize="15" Placeholder="Buscar cancha"
+                           SearchCommandParameter="{Binding Text , Source={x:Reference searchBar}}"/>-->
+                <SearchBar Grid.Column="1" 
+                           BackgroundColor="Transparent" 
+                           x:Name="buscarCancha" 
+                           Placeholder="Buscar"  
+                           TextColor="White" 
+                           FontSize="15" 
+                           HorizontalOptions="FillAndExpand" 
+                           VerticalOptions="Center"/>
+                <Image Grid.Column="2" 
+                       x:Name="Btnconfiguracion"
+                       HeightRequest="20" 
+                       WidthRequest="20" 
+                       Margin="20,0" 
+                       Source="filter.png">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer 
+                Tapped="BtnConfiguracion_Tapped_1"
+                NumberOfTapsRequired="1" />
+                    </Image.GestureRecognizers>
+                </Image>
+            </Grid>
+        </Frame>
+
+        <StackLayout Grid.Row="1" Spacing="0">
+            <ActivityIndicator IsVisible="{Binding IsOcupado}" IsRunning="{Binding IsOcupado}"/>
+            <Label Text="{Binding ResultadoBusqueda}" Style="{StaticResource fuenteLabel}" />
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Label  Text="Go Play" 
+                    TextColor="#515151" 
+                    FontSize="20" 
+                    FontAttributes="Italic" 
+                    Style="{StaticResource fuenteLabel}"
+                        />
+                <!---->
+                <Button Text="Iniciar"  Style="{StaticResource fuenteButton}"  IsVisible="{Binding IsLogueado}" Command="{Binding IniciarCommand}" BackgroundColor="#F9F1F9" x:Name="IniciarSesion"  VerticalOptions="StartAndExpand" HeightRequest="40" Grid.Column="1" HorizontalOptions="End"></Button>
+                <Button Text="Salir"  Style="{StaticResource fuenteButton}"  IsVisible="{Binding IsLogueadoNO}" BackgroundColor="#F9F1F9" x:Name="CerrarSesion" Clicked="CerrarSesion_Clicked" VerticalOptions="StartAndExpand" HeightRequest="40" Grid.Column="1" HorizontalOptions="End"></Button>
+
+            </Grid>
+
+            
+                <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                <StackLayout Orientation="Horizontal" Spacing="10" BindableLayout.ItemsSource="{Binding PropertyTypeList}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <pv:PancakeView CornerRadius="15" Margin="5,10,0,10" HasShadow="True" BackgroundColor="White">
+                                <pv:PancakeView.GestureRecognizers>
+                                    <TapGestureRecognizer BindingContext="{Binding TypeName}" Tapped="SelectType"/>
+                                </pv:PancakeView.GestureRecognizers>
+                                <VisualStateManager.VisualStateGroups >
+                                    <VisualStateGroup x:Name="CommonStates" >
+                                        <VisualState x:Name="Normal" >
+                                            <VisualState.Setters>
+                                                <Setter Property="BackgroundGradientStops" Value="{x:Null}"/>
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="Selected" >
+                                            <VisualState.Setters>
+                                                <Setter Property="BackgroundGradientStops">
+                                                    <Setter.Value>
+                                                        <pv:GradientStopCollection>
+                                                            <pv:GradientStop Color="{StaticResource colorBoton}" Offset="0" />
+                                                            <pv:GradientStop Color="{StaticResource colorBoton}" Offset="0.5" />
+                                                            <pv:GradientStop Color="{StaticResource colorBoton}" Offset="1" />
+                                                        </pv:GradientStopCollection>
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Setter Property="BackgroundGradientAngle" Value="270"/>
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Label  x:Name="PropertyTypeName"  Padding="20,5" Style="{StaticResource fuenteLabel}" 
+                                        Text="{Binding TypeName}" 
+                                        TextColor="#707070" FontSize="15">
+                                </Label>
+                            </pv:PancakeView>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+            </ScrollView>
+                
+        </StackLayout>
+
+
+        <RefreshView  Grid.Row="2" IsRefreshing="{Binding IsRefresh}"  Command="{Binding RefrescarComando}"  x:Name="rfeshContent" RefreshColor="Red">
+        <ScrollView Margin="0,10" VerticalScrollBarVisibility="Never">
+            <StackLayout BackgroundColor="Transparent"  x:Name="Contenido" BindableLayout.ItemsSource="{Binding PropertyList}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <pv:PancakeView HeightRequest="190" Margin="5,10" CornerRadius="5" HasShadow="True" BackgroundColor="White">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="PropertySelected"/>
+                                </Grid.GestureRecognizers>
+                                <Image HeightRequest="115" Aspect="AspectFill" Source="{Binding Image}" st:Transition.Name="PropertyImage"/>
+                                <Image Source="bookmark.png" HorizontalOptions="End" Margin="12" HeightRequest="16" VerticalOptions="Start"/>
+                                <Grid VerticalOptions="End" Margin="15">
+                                    <pv:PancakeView CornerRadius="13" Padding="15,5" BackgroundColor="Black" Opacity="0.5" 
+                                                    HorizontalOptions="Start" VerticalOptions="Start">
+                                        <StackLayout Orientation="Horizontal" Spacing="5" HorizontalOptions="Start">
+                                            <Image HeightRequest="12" WidthRequest="12" Source="location.png" VerticalOptions="Center" HorizontalOptions="Start"/>
+                                                <Label Style="{StaticResource fuenteLabel}" Text="{Binding Location}" FontSize="12" TextColor="White" 
+                                                       VerticalOptions="Center"/>
+                                        </StackLayout>
+                                    </pv:PancakeView>
+                                </Grid>
+                                <StackLayout Grid.Row="1" Spacing="5" Margin="20,5">
+                                        <Label Text="{Binding Price}" 
+                                               Style="{StaticResource fuenteLabel}" 
+                                               FontAttributes="Bold"
+                                               FontSize="18" TextColor="#515151"/>
+                                    
+                                    <StackLayout Orientation="Horizontal" Spacing="15">
+                                            <Label Style="{StaticResource fuenteLabel}" 
+                                                   Text="{Binding Address}" 
+                                                   FontSize="12" 
+                                                   TextColor="#707070"/>
+                                        </StackLayout>
+                                </StackLayout>
+                            </Grid>
+                        </pv:PancakeView>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </StackLayout>
+        </ScrollView>
+        </RefreshView>
+    </Grid>
+
+</ContentPage>

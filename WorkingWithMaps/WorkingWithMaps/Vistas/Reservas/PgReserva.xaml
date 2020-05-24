@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:controls="clr-namespace:PlacesApp.Controls" xmlns:util="clr-namespace:PropertyApp.Controls"
+             ios:Page.UseSafeArea="true"
+             x:Class="PlacesApp.Views.PgReserva">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <util:CurrencyConverter x:Key="currencyConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <!--<ContentPage.BindingContext>
+        <vn1:Place/>
+    </ContentPage.BindingContext>-->
+    
+    <ContentPage.Content>
+        <StackLayout>
+
+                <StackLayout BackgroundColor="#0B5894" >
+
+                <DatePicker Style="{StaticResource fuenteLabel}" 
+                            TextColor="White"
+                            x:Name="date"
+                            DateSelected="date_DateSelected"
+                            Date="{Binding Fecha}"
+                            Format="D"
+                            HorizontalOptions="CenterAndExpand" 
+                            WidthRequest="250"/>
+
+                <StackLayout IsVisible="{Binding IsBusy}">
+                    <ActivityIndicator 
+                        IsVisible="{Binding IsBusy}" 
+                        IsRunning="{Binding IsBusy}" />
+                </StackLayout>
+                    
+                <ListView SeparatorVisibility="Default" 
+                          Margin="0,0,2,0" 
+                          ItemsSource="{Binding Horarios}" 
+                          x:Name="lstReservaciones" 
+                          ItemSelected="listViewEjemplo1_ItemSelected"
+                          BackgroundColor="White" 
+                          HasUnevenRows="true"
+                          HorizontalOptions="FillAndExpand">                    
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout Margin="3,5,20,5" Spacing="0" >
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                        <Label Style="{StaticResource fuenteLabel}" 
+                                               Text="{Binding NombreCancha}"
+                                               Margin="0,0,0,0"
+                                               VerticalOptions="End"
+                                               HorizontalOptions="CenterAndExpand"
+                                               TextColor="Black"
+                                               FontSize="20" 
+                                               Grid.ColumnSpan="2" />
+                                            <BoxView  Grid.Row="0" 
+                                                  Grid.RowSpan="3" 
+                                                  Margin="5,0,0,0" 
+                                                  BackgroundColor="Black" 
+                                                  WidthRequest="3" 
+                                                  VerticalOptions="FillAndExpand" 
+                                                  HorizontalOptions="Start"/>
+                                            <StackLayout Grid.Row="1" Grid.ColumnSpan="2" 
+                                                         Spacing="0" 
+                                                         HorizontalOptions="CenterAndExpand">
+                                                <StackLayout  
+                                                     HorizontalOptions="CenterAndExpand"
+                                                     Orientation="Horizontal">
+
+                                                    <Image Source="fecha.png"
+                                                   HorizontalOptions="Center"/>
+                                                <Label Style="{StaticResource fuenteLabel}" 
+                                                       Text="{Binding Fecha}" 
+                                                       FontAttributes="Italic" 
+                                                       HorizontalTextAlignment="Center" 
+                                                       HorizontalOptions="CenterAndExpand"/>
+                                                </StackLayout>
+
+                                                <StackLayout 
+                                                     HorizontalOptions="CenterAndExpand"
+                                                     Orientation="Horizontal">
+                                                    <Image Source="hora.png"
+                                                   HorizontalOptions="Center"/>
+                                                    <Label Text="{Binding Hora}" FontAttributes="Bold"/>
+                                                </StackLayout>
+                                            <Label Style="{StaticResource fuenteLabel}" 
+                                                   Text="{Binding Estado}" 
+                                                   TextColor="{Binding Color}"
+                                                   FontAttributes="Bold"
+                                                   HorizontalTextAlignment="Center"/>
+                                            </StackLayout>
+
+
+                                        <Label Style="{StaticResource fuenteLabel}" 
+                                               HorizontalTextAlignment="Center"  
+                                               Grid.Row="2" Grid.ColumnSpan="2"
+                                                Text="{Binding Precio, Converter={StaticResource currencyConverter}}" 
+                                               FontAttributes="Bold" FontSize="25"/>
+
+                                        </Grid>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+        </StackLayout>
+
+    </ContentPage.Content>
+</ContentPage>

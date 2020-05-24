@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" 
+             xmlns:vm="clr-namespace:PlacesApp.ViewModels.Equipo"
+             mc:Ignorable="d"
+             x:Class="PlacesApp.Views.Equipo.MiequipoVista">
+
+    <ContentPage.BindingContext>
+        <vm:MiEquipoViewModel/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+
+        <StackLayout Spacing="0"
+                     Margin="{OnPlatform Android='0, 50, 0, 0', iOS='0'}">
+
+            <Frame  >
+                <StackLayout Margin="20,10,0,0" Spacing="0">
+                    <StackLayout Orientation="Horizontal">
+                        <Picker Title="Nombre de mi equipo" ItemsSource="{Binding Groups}" 
+                            x:Name="TxtEquipo"
+                                HorizontalOptions="FillAndExpand"
+                            ItemDisplayBinding="{Binding Grupo.GroupTitle}"
+                            SelectedItem="{Binding Id}"
+                            SelectedIndexChanged="TxtEquipo_SelectedIndexChanged"/>
+                        <ActivityIndicator HeightRequest="20" WidthRequest="20" VerticalOptions="End" IsVisible="{Binding Ocupado}" IsRunning="{Binding Ocupado}"/>
+
+                    </StackLayout>
+                    <Label Text="{Binding Group.GroupTitle}" 
+                                   FontSize="50" 
+                                   FontAttributes="Bold"/>
+                    <Label Text="{Binding Group.About}" FontSize="20"/>
+                    <Image Source="{Binding Group.Cover}"/>
+                </StackLayout>
+            </Frame>
+
+            <AbsoluteLayout>
+                <Frame VerticalOptions="End" FlexLayout.AlignSelf="End" >
+
+                    <StackLayout Margin="10,0,0,0" VerticalOptions="EndAndExpand" Orientation="Horizontal">
+
+                        <StackLayout Orientation="Horizontal" Padding="10">
+                            <yummy:PancakeView 
+                                                   HorizontalOptions="FillAndExpand">
+                                <Button Text="Nuevo equipo"
+                                            x:Name="BtnReservar"
+                                            TextColor="White"
+                                            CornerRadius="10"
+                                            BackgroundColor="#5fc567"/>
+                            </yummy:PancakeView>
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal" Padding="10">
+                            <yummy:PancakeView
+                                                   HorizontalOptions="FillAndExpand">
+                                <Button Text="Dejar equipo"
+                                            TextColor="White"
+                                            CornerRadius="10"
+                                            BackgroundColor="#5fc567"/>
+                            </yummy:PancakeView>
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+            </AbsoluteLayout>
+
+
+        </StackLayout>
+
+
+
+
+    </ContentPage.Content>
+</ContentPage>

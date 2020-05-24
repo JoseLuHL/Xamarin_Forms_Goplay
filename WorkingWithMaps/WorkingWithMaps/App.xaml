@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="WorkingWithMaps.App">
+    <Application.Resources>
+        <Color x:Key="colorBoton">#0B5894</Color>
+        <Color x:Key="colorBoton2">#F9B522</Color>
+        <Style x:Key="fuenteLabel"
+           TargetType="Button">
+            <Setter Property="FontFamily" Value="LightFont"/>
+        </Style>
+
+        <Style x:Key="fuenteButton"
+           TargetType="Button">
+            <Setter Property="FontFamily" Value="LightFont"/>
+        </Style>
+
+        <Style x:Key="fuenteTitulo"
+           TargetType="Button">
+            <Setter Property="FontFamily" Value="LightFont"/>
+        </Style>
+
+
+
+    </Application.Resources>
+</Application>

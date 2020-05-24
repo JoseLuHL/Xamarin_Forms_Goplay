@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="PlacesApp.Views.ViewJuegos">
+    <ContentPage.Content>
+        <StackLayout Margin="30,30,30,10">
+            
+            <Grid ColumnSpacing="0" RowSpacing="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Image Source="bancolombia.png" VerticalOptions="Center"/>
+                <Label BackgroundColor="Gray" TextColor="White" Text="VS" FontSize="24" FontAttributes="Bold" Grid.Column="1" HorizontalTextAlignment="Center"  VerticalOptions="Center"/>
+                <Image Source="bancolombia.png" Grid.Column="2"  VerticalOptions="Center"/>
+                <Label Margin="0,-20,0,0" TextColor="Gray" Text="Bancolombia" FontSize="18" Grid.Row="1" HorizontalOptions="Center" />
+                <Label Margin="0,-20,0,0" TextColor="Gray" Text="Gladiadores" FontSize="18" Grid.Row="1" HorizontalOptions="Center" Grid.Column="2"  />              
+            </Grid>
+
+            <CarouselView>
+                <CarouselView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            
+                        </ViewCell>
+                    </DataTemplate>
+                </CarouselView.ItemTemplate>
+            </CarouselView>
+
+            <AbsoluteLayout HorizontalOptions="CenterAndExpand" WidthRequest="100" >
+                <Frame HorizontalOptions="CenterAndExpand" WidthRequest="100"  HasShadow="True" CornerRadius="10" Margin="0,0,0,0"  Padding="5,10,5,20"   VerticalOptions="StartAndExpand">
+                    <Grid HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+     
+                        </Grid.ColumnDefinitions>
+
+                        <StackLayout Grid.Column="0" Spacing="0" Padding="0,0,0,10" Orientation="Vertical"  HorizontalOptions="CenterAndExpand">
+                            <Image Source="equipo.png" HeightRequest="25" HorizontalOptions="Center"/>
+                            <Label Text="Nuevo" TextColor="Black" FontSize="10" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        </StackLayout>
+
+                    </Grid>
+                </Frame>
+            </AbsoluteLayout>
+
+        </StackLayout>
+        
+    </ContentPage.Content>
+</ContentPage>
