@@ -5,9 +5,9 @@
     <color android:color="@color/colorSplashScreen"/>
   </item>
   <item>
-    <!--<bitmap android:src="@drawable/sp"
+    <bitmap android:src="@drawable/sp"
             android:tileMode="disabled"
-            android:gravity="center"/>-->
+            android:gravity="center"/>
   </item>
   
 <TextView

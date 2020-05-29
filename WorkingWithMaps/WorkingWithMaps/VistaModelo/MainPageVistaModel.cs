@@ -19,7 +19,7 @@ namespace PropertyApp.VistaModelo
 {
     public class MainPageVistaModel : BaseViewModel
     {
-        public string mensajeLogueo => "Lo sentimos, para acceder a esta opción debe iniciar sesión";
+        public string mensajeLogue1 => "Lo sentimos, para acceder a esta opción debe iniciar sesión";
         //Servicio de canchas
         CanchasServicio CanchasServicio;
 

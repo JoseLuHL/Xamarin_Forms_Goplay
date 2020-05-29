@@ -37,6 +37,10 @@ namespace PlacesApp.Views
         {
             var item = e.SelectedItem as HorarioModelo;
             Contexto.HorariosSelect = item;
+            if (item.Estado!="Disponible")
+            {
+                return;
+            }
             Navigation.PushModalAsync(new DetalleReserva { BindingContext = Contexto });
         }
 

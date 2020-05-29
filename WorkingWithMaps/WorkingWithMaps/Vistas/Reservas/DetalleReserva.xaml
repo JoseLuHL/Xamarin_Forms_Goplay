@@ -73,10 +73,6 @@
             </Grid>           
         
         </ScrollView>
-            <!--<StackLayout>
-                
-            </StackLayout>-->
-            <!--<Grid Padding=""  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">-->
                 <StackLayout Grid.Row="2" Spacing="0" HorizontalOptions="End" VerticalOptions="Start">
                 <Button Command="{Binding ContinuarComando}" 
                         Text="COMPLETAR" 
@@ -87,7 +83,6 @@
                         BackgroundColor="{StaticResource colorBoton}" 
                         HorizontalOptions="End"/>
             </StackLayout>
-        <!--</Grid>-->
     </Grid>
         </ContentPage.Content>
 </ContentPage>
