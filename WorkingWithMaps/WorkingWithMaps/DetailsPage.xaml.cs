@@ -69,9 +69,7 @@ namespace PropertyApp
             catch (Exception ex)
             {
                 DisplayAlert("", "No se ha proporcionado numero telefonico", "OK");
-
             }
-
         }
 
         private async void TapGestureRecognizer_Tapped_1(object sender, EventArgs e)

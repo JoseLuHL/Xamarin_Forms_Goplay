@@ -1,10 +1,5 @@
-﻿using MvvmHelpers;
-using PropertyApp.Servicio;
+﻿using PropertyApp.Servicio;
 using PropertyApp.url;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
 using System.Threading.Tasks;
 using WSGOPLAY.Models.red;
 

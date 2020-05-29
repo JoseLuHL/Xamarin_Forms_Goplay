@@ -85,7 +85,6 @@ namespace PropertyApp.Servicio
             {
                 Exitoso.Mensaje = ex.Message;
             }
-
             return Exitoso;
         }
     }

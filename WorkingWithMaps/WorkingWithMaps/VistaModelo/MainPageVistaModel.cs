@@ -1,6 +1,5 @@
 ﻿using MvvmHelpers;
 using PlacesApp.Views.Equipo;
-using PropertyApp.Modelo;
 using PropertyApp.Servicio;
 using PropertyApp.url;
 using PropertyApp.Vistas;
@@ -8,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using WorkingWithMaps;
@@ -94,11 +92,11 @@ namespace PropertyApp.VistaModelo
 
         public ICommand BuscarCanchaCommando => new Command<string>(async (string buscar) =>
        {
-           if (IsLogueado == true)
-           {
-               await Application.Current.MainPage.DisplayAlert("...", mensajeLogueo, "OK");
-               return;
-           }
+           //if (IsLogueado == true)
+           //{
+           //    await Application.Current.MainPage.DisplayAlert("...", mensajeLogueo, "OK");
+           //    return;
+           //}
 
            if (string.IsNullOrEmpty(buscar))
            {
@@ -135,11 +133,11 @@ namespace PropertyApp.VistaModelo
 
         public ICommand TodasCanchasComando => new Command(async () =>
         {
-            if (IsLogueado == true)
-            {
-                await Application.Current.MainPage.DisplayAlert("...", mensajeLogueo, "OK");
-                return;
-            }
+            //if (IsLogueado == true)
+            //{
+            //    await Application.Current.MainPage.DisplayAlert("...", mensajeLogueo, "OK");
+            //    return;
+            //}
             IsOcupado = true;
             Canchas = await GoPlayServicio.GetDatosAsync<WoPages>(Url.urlPagesTodas);
             PropertyList = CargarCanchas(Canchas);
@@ -148,11 +146,11 @@ namespace PropertyApp.VistaModelo
         public int pag { get; set; } = 1;
         public ICommand RefrescarComando => new Command(async () =>
        {
-           if (IsLogueado == true)
-           {
-               await Application.Current.MainPage.DisplayAlert("...", mensajeLogueo, "OK");
-               return;
-           }
+           //if (IsLogueado == true)
+           //{
+           //    await Application.Current.MainPage.DisplayAlert("...", mensajeLogueo, "OK");
+           //    return;
+           //}
            pag++;
            IsRefresh = true;
            Canchas = await GoPlayServicio.GetDatosAsync<WoPages>(Url.urlPages + pag);

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--For all properties see: https://aka.ms/android-menu-resource-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+  <item>
+    <color android:color="@color/colorSplashScreen"/>
+  </item>
+  <item>
+    <!--<bitmap android:src="@drawable/sp"
+            android:tileMode="disabled"
+            android:gravity="center"/>-->
+  </item>
+  
+<TextView
+android:layout_height="wrap_content"
+android:layout_width="fill_parent"
+android:text="Este es un Slogan"
+android:textSize="24dp"
+android:textColor="#000"
+android:foregroundGravity="center_horizontal"
+android:gravity="center_horizontal"
+android:layout_weight="0" />
+</layer-list>
