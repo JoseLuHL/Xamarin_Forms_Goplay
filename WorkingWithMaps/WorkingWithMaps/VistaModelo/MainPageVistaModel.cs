@@ -19,7 +19,7 @@ namespace PropertyApp.VistaModelo
 {
     public class MainPageVistaModel : BaseViewModel
     {
-        public string mensajeLogue1 => "Lo sentimos, para acceder a esta opción debe iniciar sesión";
+        //public string mensajeLogue1 => "Lo sentimos, para acceder a esta opción debe iniciar sesión";
         //Servicio de canchas
         CanchasServicio CanchasServicio;
 
@@ -226,7 +226,7 @@ namespace PropertyApp.VistaModelo
                 }
                 else
                 {
-                    await Application.Current.MainPage.DisplayAlert("...", "Para mejorar la experiencia en GoPlay debe iniciar sesión", "OK");
+                    //await Application.Current.MainPage.DisplayAlert("...", "Para mejorar la experiencia en GoPlay debe iniciar sesión", "OK");
                     IsLogueado = true;
                     IsLogueadoNO = false;
                 }

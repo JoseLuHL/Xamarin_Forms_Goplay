@@ -13,7 +13,7 @@
     </ContentPage.Resources>
     <!--<ContentPage.BindingContext>
         <vn1:Place/>
-    </ContentPage.BindingContext>-->
+    </ContentPage.BindingContext>  Date="{Binding Fecha}"-->
     
     <ContentPage.Content>
         <StackLayout>
@@ -25,7 +25,6 @@
                             x:Name="date"
                             MinimumDate="{Binding FechaMin}"
                             DateSelected="date_DateSelected"
-                            Date="{Binding Fecha}"
                             Format="D"
                             HorizontalOptions="CenterAndExpand" 
                             WidthRequest="250"/>

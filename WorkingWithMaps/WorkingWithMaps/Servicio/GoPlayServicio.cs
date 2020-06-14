@@ -42,16 +42,25 @@ namespace PropertyApp.Servicio
             }
             return retornar;
         }
+
+        public async Task<T> Get<T>(string url)
+        {
+            HttpClient client = new HttpClient();
+            var response = await client.GetAsync(url);
+            
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<T>(json);
+        }
         public async Task<T> GetDatoAsync<T>(string url)
         {
-            var retornar = new List<T>();
-            var conte = await http.GetAsync(url);
+            var retornar = new ObservableCollection<T>();
             try
             {
+                var conte = await http.GetAsync(url);
                 if (conte.IsSuccessStatusCode)
                 {
                     var resp = await conte.Content.ReadAsStringAsync();
-                   var retornar2 = JsonConvert.DeserializeObject<T>(resp);
+                    var retornar2 = JsonConvert.DeserializeObject<T>(resp);
                     retornar.Add(retornar2);
                 }
                 else
@@ -61,7 +70,7 @@ namespace PropertyApp.Servicio
             {
                 Error = ex.Message;
             }
-            return retornar.First();
+            return retornar[0];
         }
 
         public async Task<Exitoso> PostGuardarAsync<T>(T datos, string url)

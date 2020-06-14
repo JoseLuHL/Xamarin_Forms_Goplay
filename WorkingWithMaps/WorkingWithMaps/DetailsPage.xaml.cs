@@ -45,8 +45,11 @@ namespace PropertyApp
 
         private async void BtnReservar_Clicked(object sender, EventArgs e)
         {
-            
-            await Navigation.PushModalAsync(new PgReserva (cont.Id));
+            var contexto = new ReservaVistaModelo(cont.Id);
+            var PgReserva = new PgReserva();
+            PgReserva.id = cont.Id;
+            PgReserva.BindingContext = contexto;
+            await Navigation.PushModalAsync(PgReserva);
         }
 
         private void TapGestureRecognizer_Tapped(object sender, EventArgs e)

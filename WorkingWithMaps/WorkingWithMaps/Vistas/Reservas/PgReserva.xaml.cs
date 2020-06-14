@@ -15,7 +15,7 @@ namespace PlacesApp.Views
         //Place Place => ((Place)BindingContext);
         ReservaVistaModelo Contexto => ((ReservaVistaModelo)BindingContext);
         public string id { get; set; }
-        public PgReserva(string id)
+        public PgReserva()
         {
             //BindingContext = context;
             InitializeComponent();
@@ -29,8 +29,8 @@ namespace PlacesApp.Views
 
         protected override async void OnAppearing()
         {
-            var contexto = new ReservaVistaModelo(id);
-            BindingContext = contexto;
+            //var contexto = new ReservaVistaModelo(id);
+            //BindingContext = contexto;
         }
 
         private void listViewEjemplo1_ItemSelected(object sender, SelectedItemChangedEventArgs e)

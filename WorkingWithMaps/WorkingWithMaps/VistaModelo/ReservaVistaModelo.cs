@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using WorkingWithMaps;
 using WorkingWithMaps.Modelo;
+using WorkingWithMaps.Vistas.Reservas;
 using WSGOPLAY.Models;
 using Xamarin.Forms;
 
@@ -74,7 +75,7 @@ namespace PropertyApp.VistaModelo
         {
             //await Application.Current.MainPage.DisplayAlert("", Fecha, "OK");
             IsBusy = true;
-            await Load();
+            Load();
             IsBusy = false;
         });
 
@@ -85,11 +86,11 @@ namespace PropertyApp.VistaModelo
                 return new DelegateCommand(() =>
                 {
 
-                    Application.Current.MainPage.Navigation.PushAsync(new PgReserva("")
+                    Application.Current.MainPage.Navigation.PushAsync(new PgReserva()
                     {
                         BindingContext = this
                     }
-                         );
+                   );
                 });
             }
         }
@@ -121,14 +122,14 @@ namespace PropertyApp.VistaModelo
                     //    await Application.Current.MainPage.DisplayAlert("", "Por favor seleccione una cancha", "OK");
                     //    return;
                     //}
-                    var personList = await App.SQLiteDb.GetItemsAsync();
-                    var Usuario = personList[0].Name;
+                    //var personList = await App.SQLiteDb.GetItemsAsync();
+                    //var Usuario = personList[0].Name;
 
-                    if (string.IsNullOrEmpty(Usuario))
-                    {
-                        await Application.Current.MainPage.DisplayAlert("", "Debe iniciar sesión ", "OK");
-                        return;
-                    }
+                    //if (string.IsNullOrEmpty(Usuario))
+                    //{
+                    //    await Application.Current.MainPage.DisplayAlert("", "Debe iniciar sesión ", "OK");
+                    //    return;
+                    //}
 
                     //// VERIFICACION DEL NUMERO DE TELEFONO:::
                     //if (string.IsNullOrEmpty(codigoVerificacion))
@@ -163,20 +164,8 @@ namespace PropertyApp.VistaModelo
                     reserva.HoraFinal = horariosSelect.Precio.ToString();
                     reserva.Idhorario = horariosSelect.Id;
                     reserva.Reto = "NA";
-                    reserva.Usuario = Usuario;
+                    reserva.Usuario = "Usuario";
                     reserva.Reserva1 = concepto;
-
-                    //{
-                    //  "idReserva": 0,
-                    //  "idhorario": 0,
-                    //  "fecha": "string",
-                    //  "horaInicio": "string",
-                    //  "horaFinal": "string",
-                    //  "usuario": "string",
-                    //  "idestado": 0,
-                    //  "reto": "string",
-                    //  "reserva1": "string"
-                    //}
 
                     var confirmar = await Application.Current.MainPage.DisplayAlert("Confirmar",
                         $"Datos de la reserva \n\n Cancha: {nombre} \n Fecha: {fecha} \n Hora: {hora} \n Precio: {precio} ",
@@ -184,21 +173,17 @@ namespace PropertyApp.VistaModelo
                     if (!confirmar)
                         return;
 
-                    var resp = await goplayServicio.PostGuardarAsync<ReservaModelo>(reserva, Url.urlReserva);
-                    //await Application.Current.MainPage.DisplayAlert("", resp.Mensaje, "OK");
-                    if (string.IsNullOrEmpty(resp.Mensaje))
-                    {
-                        resp.Mensaje = "!Exitosa!";
-                    }
+                    await Application.Current.MainPage.Navigation.PushModalAsync(new PagosVista { precio = precio.Replace(".","").Replace(",", ""), description = Concepto });
+                    //var resp = await goplayServicio.PostGuardarAsync<ReservaModelo>(reserva, Url.urlReserva);
 
-                    await Application.Current.MainPage.DisplayAlert("", resp.Mensaje, "OK");
-                    await Application.Current.MainPage.Navigation.PopModalAsync();
-                    //await Application.Current.MainPage.Navigation.PushModalAsync(new ViewDatosReserva
+                    //if (string.IsNullOrEmpty(resp.Mensaje))
                     //{
-                    //    BindingContext = this
-                    //});
+                    //    resp.Mensaje = "!Exitosa!";
+                    //}
 
-                    //await Application.Current.MainPage.DisplayAlert("", $"Concepto de reserva: {concepto} \n Valor a pagar: {precio}", "OK");
+                    //await Application.Current.MainPage.DisplayAlert("", resp.Mensaje, "OK");
+                    //await Application.Current.MainPage.Navigation.PopModalAsync();
+
                 });
             }
         }
@@ -238,7 +223,20 @@ namespace PropertyApp.VistaModelo
             get => horario;
             set => SetProperty(ref horario, value);
         }
-        public string idCancha { get; set; }
+
+        private string idCancha;
+
+        public string IdCancha
+        {
+            get => idCancha;
+            set
+            {
+                SetProperty(ref idCancha, value);            
+         
+            }
+        }
+
+        //public string idCancha { get; set; }
 
         private WoPages paginaHorario;
 
@@ -275,16 +273,16 @@ namespace PropertyApp.VistaModelo
         {
 
             goplayServicio = new GoPlayServicio();
-            idCancha = id;
+            IdCancha = id;
             Load();
+            //Task.Run( async () => await Load()) ;
         }
 
-        async Task Load()
+       private async void Load()
         {
             IsBusy = true;
-            PaginaHorario = await goplayServicio.GetDatoAsync<WoPages>(Url.urlPagesid + idCancha);
+            var PaginaHorario = await goplayServicio.Get<WoPages>(Url.urlPagesid + idCancha);
             var horario = new ObservableCollection<HorarioModelo>();
-            //var fe = Convert.ToDateTime(this.fecha).ToString("yyyy-MM-dd").Substring(0, 10).Trim();
             var fe = Convert.ToDateTime(this.fecha).ToString().Substring(0, 10).Trim();
 
             foreach (var item in PaginaHorario.Horario)
