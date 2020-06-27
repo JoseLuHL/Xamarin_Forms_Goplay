@@ -6,8 +6,8 @@ namespace PropertyApp.url
 {
    public static class Url
     {
-        private const string urlBase = "http://192.168.1.10/WSGOPLAY/api/";
-        private const string urlBase2 = "http://wsgoplay-test.us-west-2.elasticbeanstalk.com/api/";
+        private const string urlBase2 = "http://192.168.1.10/WSGOPLAY/api/";
+        private const string urlBase = "http://wsgoplay-test.us-west-2.elasticbeanstalk.com/api/";
 
         public static string urlReserva  => $"{urlBase}Reservas";
         public static string urlCanchas => $"{urlBase}Canchas";

@@ -1,4 +1,5 @@
 ﻿
+using Amazon.SimpleNotificationService.Util;
 using BurgerSpot.Views;
 using PropertyApp.Modelo;
 using PropertyApp.VistaModelo;
@@ -33,15 +34,23 @@ namespace PlacesApp.Views
             //BindingContext = contexto;
         }
 
-        private void listViewEjemplo1_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        private async void listViewEjemplo1_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            var item = e.SelectedItem as HorarioModelo;
-            Contexto.HorariosSelect = item;
-            if (item.Estado!="Disponible")
+            try
             {
-                return;
+                var item = e.SelectedItem as HorarioModelo;
+                Contexto.HorariosSelect = item;
+                if (item.Estado != "Disponible")
+                {
+                    await DisplayAlert("", "El horario no esta disponible", "");
+                    return;
+                }
+                await Navigation.PushModalAsync(new DetalleReserva { BindingContext = Contexto });
             }
-            Navigation.PushModalAsync(new DetalleReserva { BindingContext = Contexto });
+            catch (Exception)
+            {
+               await DisplayAlert("", "Vuelva a intentarlo","");
+            }
         }
 
         private void date_DateSelected(object sender, DateChangedEventArgs e)

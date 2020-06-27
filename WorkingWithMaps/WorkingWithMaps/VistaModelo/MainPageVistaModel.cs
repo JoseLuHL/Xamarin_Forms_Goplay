@@ -1,4 +1,5 @@
 ﻿using MvvmHelpers;
+using PlacesApp.Views;
 using PlacesApp.Views.Equipo;
 using PropertyApp.Servicio;
 using PropertyApp.url;
@@ -125,6 +126,11 @@ namespace PropertyApp.VistaModelo
             {
                 await Application.Current.MainPage.Navigation.PushModalAsync(new PinPage { BindingContext = this });
             });
+        public ICommand misReservas => new Command(
+           async () =>
+           {
+               await Application.Current.MainPage.Navigation.PushModalAsync(new MisReservas { BindingContext = this });
+           });
 
         public ICommand IniciarCommand => new Command(async () =>
            {

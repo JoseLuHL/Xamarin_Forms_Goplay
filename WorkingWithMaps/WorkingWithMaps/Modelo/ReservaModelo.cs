@@ -14,6 +14,10 @@ namespace WorkingWithMaps.Modelo
         public string Usuario { get; set; }
         public int? Idestado { get; set; }
         public string Reto { get; set; }
+        public string Tel { get; set; }
+        public string codigoVerificacion { get; set; }
+
+
         public string Reserva1 { get; set; }
     }
 }

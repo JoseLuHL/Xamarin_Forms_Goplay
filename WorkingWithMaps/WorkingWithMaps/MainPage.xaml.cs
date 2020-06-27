@@ -76,6 +76,10 @@ namespace PropertyApp
             {
                 contexto.MapaComando.Execute(false);
             }
+            if (bindi32.Name == "todasReservas")
+            {
+                contexto.misReservas.Execute(false);
+            }
         }
 
         private void ChangeTextColor(View child, string hexColor)

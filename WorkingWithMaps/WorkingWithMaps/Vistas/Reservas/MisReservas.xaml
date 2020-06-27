@@ -6,8 +6,6 @@
              mc:Ignorable="d"
              NavigationPage.HasNavigationBar="False"
              x:Class="PlacesApp.Views.MisReservas">
-
- 
     
     <ContentPage.Content>
         <StackLayout Margin="15,42,15,0">

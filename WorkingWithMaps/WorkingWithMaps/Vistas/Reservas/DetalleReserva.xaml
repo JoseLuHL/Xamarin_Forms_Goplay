@@ -27,25 +27,25 @@
             </StackLayout>
         </Grid>
         <ScrollView Grid.Row="1" HorizontalOptions="FillAndExpand">
-            <Grid  HorizontalOptions="FillAndExpand">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <StackLayout Spacing="0" HorizontalOptions="Center" VerticalOptions="Start">
-                    <Label Text="{Binding HorariosSelect.Precio, Converter={StaticResource currencyConverter}}" TextColor="#F9B522" 
+                <Grid  HorizontalOptions="FillAndExpand">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <StackLayout Spacing="0" HorizontalOptions="Center" VerticalOptions="Start">
+                        <Label Text="{Binding HorariosSelect.Precio, Converter={StaticResource currencyConverter}}" TextColor="#F9B522" 
                            FontFamily="ThemeFont" FontSize="50" HorizontalOptions="Center"/>
-                    <Label Text="{Binding HorariosSelect.Fecha}" TextColor="Black" Opacity="0.75" FontFamily="LightFont" FontSize="12" 
+                        <Label Text="{Binding HorariosSelect.Fecha}" TextColor="Black" Opacity="0.75" FontFamily="LightFont" FontSize="12" 
                            HorizontalOptions="Center"/>
-                    <Label Text="{Binding HorariosSelect.Hora}" TextColor="Black" Opacity="0.75" FontFamily="LightFont" FontSize="12" 
+                        <Label Text="{Binding HorariosSelect.Hora}" TextColor="Black" Opacity="0.75" FontFamily="LightFont" FontSize="12" 
                            HorizontalOptions="Center"/>
-                </StackLayout>
-                <StackLayout Grid.Row="1" Margin="0,10,0,0">
-                    <Image Source="{Binding HorariosSelect.Imagen}" Aspect="Fill" Margin="0,-50,0,0" HeightRequest="210"
+                    </StackLayout>
+                    <StackLayout Grid.Row="1" Margin="0,10,0,0">
+                        <Image Source="{Binding HorariosSelect.Imagen}" Aspect="Fill" Margin="0,-50,0,0" HeightRequest="210"
                            WidthRequest="235" HorizontalOptions="Center" VerticalOptions="End"/>
-                </StackLayout>
-                <!--<CarouselView Grid.Row="1" ItemsSource="{Binding Burgers}" HeightRequest="260" HorizontalOptions="FillAndExpand" 
+                    </StackLayout>
+                    <!--<CarouselView Grid.Row="1" ItemsSource="{Binding Burgers}" HeightRequest="260" HorizontalOptions="FillAndExpand" 
                           CurrentItem="{Binding SelectedBurger}" IsScrollAnimated="True" IsSwipeEnabled="True">
                     <CarouselView.ItemTemplate>
                         <DataTemplate>
@@ -58,21 +58,21 @@
                         </DataTemplate>
                     </CarouselView.ItemTemplate>
                 </CarouselView>-->
-                <!--<ImageButton Grid.Row="1" Source="left.png" Margin="15,50,0,0" Aspect="Fill" HeightRequest="18" WidthRequest="18" HorizontalOptions="Start" 
+                    <!--<ImageButton Grid.Row="1" Source="left.png" Margin="15,50,0,0" Aspect="Fill" HeightRequest="18" WidthRequest="18" HorizontalOptions="Start" 
                          VerticalOptions="Center" BackgroundColor="Transparent" Command="{Binding ChangePositionCommand}" CommandParameter="L"/>
                 <ImageButton Grid.Row="1" Source="right.png" Margin="0,50,15,0" Aspect="Fill" HeightRequest="18" WidthRequest="18" HorizontalOptions="End" 
                          VerticalOptions="Center" BackgroundColor="Transparent" Command="{Binding ChangePositionCommand}" CommandParameter="R"/>-->
-                <StackLayout Grid.Row="2" Spacing="20" HorizontalOptions="FillAndExpand">
-                    <Label Text="{Binding HorariosSelect.NombreCancha}" TextColor="#F9B522" 
+                    <StackLayout Grid.Row="2" Spacing="20" HorizontalOptions="FillAndExpand">
+                        <Label Text="{Binding HorariosSelect.NombreCancha}" TextColor="#F9B522" 
                            FontFamily="ThemeFont" FontSize="25" HorizontalOptions="End"/>
-                    <BoxView BackgroundColor="#F9B522" HeightRequest="2" WidthRequest="45" VerticalOptions="Start" 
+                        <BoxView BackgroundColor="#F9B522" HeightRequest="2" WidthRequest="45" VerticalOptions="Start" 
                              HorizontalOptions="End"/>
-                    <Label Text="{Binding Concepto}" TextColor="Black" WidthRequest="250" 
+                        <Label Text="{Binding Concepto}" TextColor="Black" WidthRequest="250" 
                            FontFamily="LightFont" FontSize="12" HorizontalOptions="End" HorizontalTextAlignment="End"/>
-                 </StackLayout>                
-            </Grid>           
-        
-        </ScrollView>
+                    </StackLayout>
+                </Grid>
+
+            </ScrollView>
                 <StackLayout Grid.Row="2" Spacing="0" HorizontalOptions="End" VerticalOptions="Start">
                 <Button Command="{Binding ContinuarComando}" 
                         Text="COMPLETAR" 
@@ -82,6 +82,7 @@
                         CornerRadius="17" 
                         BackgroundColor="{StaticResource colorBoton}" 
                         HorizontalOptions="End"/>
+                <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"/>
             </StackLayout>
     </Grid>
         </ContentPage.Content>

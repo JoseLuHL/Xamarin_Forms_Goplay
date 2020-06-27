@@ -62,6 +62,9 @@
     <EmbeddedResource Update="Vistas\ReservasUsuarioVista.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Vistas\Reservas\ConfirmarTelVista.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Vistas\Reservas\DetalleReserva.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>

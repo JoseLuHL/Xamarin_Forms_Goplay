@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using WorkingWithMaps;
 using WorkingWithMaps.Modelo;
+using WorkingWithMaps.Servicio;
 using WorkingWithMaps.Vistas.Reservas;
 using WSGOPLAY.Models;
 using Xamarin.Forms;
@@ -117,46 +118,18 @@ namespace PropertyApp.VistaModelo
                         return;
                     }
 
-                    //if (string.IsNullOrEmpty(Id))
-                    //{
-                    //    await Application.Current.MainPage.DisplayAlert("", "Por favor seleccione una cancha", "OK");
-                    //    return;
-                    //}
-                    //var personList = await App.SQLiteDb.GetItemsAsync();
-                    //var Usuario = personList[0].Name;
-
-                    //if (string.IsNullOrEmpty(Usuario))
-                    //{
-                    //    await Application.Current.MainPage.DisplayAlert("", "Debe iniciar sesión ", "OK");
-                    //    return;
-                    //}
-
-                    //// VERIFICACION DEL NUMERO DE TELEFONO:::
+                    // VERIFICACION DEL NUMERO DE TELEFONO:::
                     //if (string.IsNullOrEmpty(codigoVerificacion))
                     //{
-                    //    var tel = await Application.Current.MainPage.DisplayPromptAsync("GOPLAY:", "Numero de telefono", "OK", "Cancel", null, 10, keyboard: Keyboard.Numeric, "");
-                    //    if (tel.Length == 10)
-                    //    {
-                    //        AmazonWSnsn amazonW = new AmazonWSnsn();
-                    //        var codigo = await amazonW.VerificarTel(tel);
-                    //        codigoVerificacion = codigo;
-                    //    }
-                    //    else
-                    //    {
-                    //        await Application.Current.MainPage.DisplayAlert("Error", "Numero de no valido", "OK");
-                    //        return;
-                    //    }
-                    //}
 
-                    //var result = await Application.Current.MainPage.DisplayPromptAsync("GOPLAY:", "Se ha enviado un mensaje de texto a su celular \n Ingrese el codigo de verificacion", "OK", "Cancel", null, 8, keyboard: Keyboard.Numeric, "");
-
-                    //if (codigoVerificacion != result)
+                    //var tel = await Application.Current.MainPage.DisplayPromptAsync("GOPLAY:", "Numero de telefono", "OK", "Cancel", null, 10, keyboard: Keyboard.Numeric, "");
+                    //if (tel.Length == 10)
                     //{
-                    //    await Application.Current.MainPage.DisplayAlert("Error", "Numero invalido", "OK");
-                    //    return;
-                    //}
-
                     var reserva = new ReservaModelo();
+                    //AmazonWSnsn amazonW = new AmazonWSnsn();
+                    //var codigo = await amazonW.VerificarTel(tel);
+                    IsBusy = true;
+                    Concepto = $"Reserva de cancha {nombre} para la fecha {fecha} hora {hora} por el valor de {precio}";
                     reserva.Idhorario = horariosSelect.Id;
                     reserva.Idestado = 2;
                     reserva.Fecha = horariosSelect.Fecha;
@@ -164,27 +137,31 @@ namespace PropertyApp.VistaModelo
                     reserva.HoraFinal = horariosSelect.Precio.ToString();
                     reserva.Idhorario = horariosSelect.Id;
                     reserva.Reto = "NA";
+                    //reserva.Tel = tel;
+                    //reserva.codigoVerificacion = codigo;
                     reserva.Usuario = "Usuario";
                     reserva.Reserva1 = concepto;
+                    //codigoVerificacion = codigo;
+                    IsBusy = false;
+                    //await Application.Current.MainPage.Navigation.PushModalAsync(
+                    //new ConfirmarTelVista { BindingContext = reserva });
 
-                    var confirmar = await Application.Current.MainPage.DisplayAlert("Confirmar",
-                        $"Datos de la reserva \n\n Cancha: {nombre} \n Fecha: {fecha} \n Hora: {hora} \n Precio: {precio} ",
-                        "SI", "NO");
-                    if (!confirmar)
-                        return;
+                    await Application.Current.MainPage.Navigation.PushModalAsync(
+                    new PagosVista { BindingContext = reserva });
+                //}
+                //else
+                //{
+                //    await Application.Current.MainPage.DisplayAlert("Error", "Numero de no valido", "OK");
+                //    return;
+                //}
+                ////}
+                ////else
+                ////{
+                ////    await Application.Current.MainPage.Navigation.PushModalAsync(
+                ////           new ConfirmarTelVista { BindingContext = reserva });
+                ////}
 
-                    await Application.Current.MainPage.Navigation.PushModalAsync(new PagosVista { precio = precio.Replace(".","").Replace(",", ""), description = Concepto });
-                    //var resp = await goplayServicio.PostGuardarAsync<ReservaModelo>(reserva, Url.urlReserva);
-
-                    //if (string.IsNullOrEmpty(resp.Mensaje))
-                    //{
-                    //    resp.Mensaje = "!Exitosa!";
-                    //}
-
-                    //await Application.Current.MainPage.DisplayAlert("", resp.Mensaje, "OK");
-                    //await Application.Current.MainPage.Navigation.PopModalAsync();
-
-                });
+            });
             }
         }
         public string Id { get; set; }
@@ -231,8 +208,8 @@ namespace PropertyApp.VistaModelo
             get => idCancha;
             set
             {
-                SetProperty(ref idCancha, value);            
-         
+                SetProperty(ref idCancha, value);
+
             }
         }
 
@@ -278,7 +255,7 @@ namespace PropertyApp.VistaModelo
             //Task.Run( async () => await Load()) ;
         }
 
-       private async void Load()
+        private async void Load()
         {
             IsBusy = true;
             var PaginaHorario = await goplayServicio.Get<WoPages>(Url.urlPagesid + idCancha);
