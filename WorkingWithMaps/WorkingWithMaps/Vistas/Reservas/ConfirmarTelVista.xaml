@@ -11,6 +11,7 @@
             <Label Text="Por favor ingrese el codigo de verificacion" FontSize="Large"/>
             <Entry FontSize="35" x:Name="TxtCodigoverificacion"></Entry>
             <Button Text="Continuar" x:Name="BtnContinuar" Clicked="BtnContinuar_Clicked"></Button>
+            <ActivityIndicator IsRunning="{Binding IsBusin}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

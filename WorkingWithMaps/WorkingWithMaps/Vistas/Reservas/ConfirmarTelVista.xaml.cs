@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PropertyApp.Servicio;
+using PropertyApp.url;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +20,6 @@ namespace WorkingWithMaps.Vistas.Reservas
         public ConfirmarTelVista()
         {
             InitializeComponent();
-
         }
 
         protected override void OnAppearing()
@@ -29,22 +30,37 @@ namespace WorkingWithMaps.Vistas.Reservas
 
         private async void BtnContinuar_Clicked(object sender, EventArgs e)
         {
-
+            contexto.IsBusy = true;
             if (TxtCodigoverificacion.Text.Trim() != contexto.codigoVerificacion)
             {
                 await DisplayAlert("Error", "Numero de verificacion no valido", "OK");
+                contexto.IsBusy =false;
                 return;
             }
-
-
 
             //var confirmar = await Application.Current.MainPage.DisplayAlert("Confirmar",
             //    $"Datos de la reserva \n\n Cancha: {contexto.} \n Fecha: {contexto.fecha} \n Hora: {contextohora} \n Precio: {contextoprecio} ",
             //    "SI", "NO");
             //if (!confirmar)
             //    return;
-
-            await Application.Current.MainPage.Navigation.PushModalAsync(new PagosVista {BindingContext = contexto });
+            try
+            {
+                var goplay = new GoPlayServicio();
+                var res = await goplay.PostGuardarAsync(contexto, Url.urlReserva);
+                if (res.Estado == false)
+                {
+                    contexto.IsBusy = false;
+                    await DisplayAlert("", "Lo sentomos al parecer hay un poblema \n vuelva a intentarlo", "OK");
+                    return;
+                }
+                await Application.Current.MainPage.Navigation.PushModalAsync(new PagosVista { BindingContext = contexto });
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("", ex.ToString(), "OK");
+                contexto.IsBusy = false;
+            }
+            contexto.IsBusy = false;
 
         }
     }

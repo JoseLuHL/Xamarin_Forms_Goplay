@@ -75,6 +75,7 @@ namespace PropertyApp.Servicio
 
         public async Task<Exitoso> PostGuardarAsync<T>(T datos, string url)
         {
+            var re = new Exitoso();
             var json = JsonConvert.SerializeObject(datos);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             try
@@ -83,18 +84,73 @@ namespace PropertyApp.Servicio
                 if (peti.IsSuccessStatusCode)
                 {
                     var conte = await peti.Content.ReadAsStringAsync();
-                    Exitoso = JsonConvert.DeserializeObject<Exitoso>(conte);
+                    re.Estado = true;
                 }
                 else
                 {
-                    Exitoso.Mensaje = peti.StatusCode.ToString();
+                    re.Mensaje = peti.StatusCode.ToString();
+                    re.Estado = false;
                 }
             }
             catch (Exception ex)
             {
-                Exitoso.Mensaje = ex.Message;
+                re.Mensaje = ex.Message;
+                re.Estado = false;
+
             }
-            return Exitoso;
+            return re;
+        }
+        public async Task<Exitoso> PutActualizarAsync<T>(T datos, string url)
+        {
+            var re = new Exitoso();
+            var json = JsonConvert.SerializeObject(datos);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            try
+            {
+                var peti = await http.PutAsync(url, content);
+                if (peti.IsSuccessStatusCode)
+                {
+                    var conte = await peti.Content.ReadAsStringAsync();
+                    re.Estado = true;
+                }
+                else
+                {
+                    re.Mensaje = peti.StatusCode.ToString();
+                    re.Estado = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                re.Mensaje = ex.Message;
+                re.Estado = false;
+
+            }
+            return re;
+        }
+        public async Task<Exitoso> DeleteAsync<T>(string url)
+        {
+            var re = new Exitoso();
+            try
+            {
+                var peti = await http.DeleteAsync(url);
+                if (peti.IsSuccessStatusCode)
+                {
+                    var conte = await peti.Content.ReadAsStringAsync();
+                    re.Estado = true;
+                }
+                else
+                {
+                    re.Mensaje = peti.StatusCode.ToString();
+                    re.Estado = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                re.Mensaje = ex.Message;
+                re.Estado = false;
+
+            }
+            return re;
         }
     }
 }

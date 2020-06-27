@@ -42,7 +42,7 @@ namespace PlacesApp.Views
                 Contexto.HorariosSelect = item;
                 if (item.Estado != "Disponible")
                 {
-                    await DisplayAlert("", "El horario no esta disponible", "");
+                    await DisplayAlert("", "El horario no esta disponible", "OK");
                     return;
                 }
                 await Navigation.PushModalAsync(new DetalleReserva { BindingContext = Contexto });

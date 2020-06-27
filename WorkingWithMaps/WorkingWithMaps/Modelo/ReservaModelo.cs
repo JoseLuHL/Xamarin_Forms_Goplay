@@ -1,10 +1,11 @@
-﻿using System;
+﻿using MvvmHelpers;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace WorkingWithMaps.Modelo
 {
-   public class ReservaModelo
+   public class ReservaModelo: BaseViewModel
     {
         public int IdReserva { get; set; }
         public int Idhorario { get; set; }
