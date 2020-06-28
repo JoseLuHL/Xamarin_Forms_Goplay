@@ -20,7 +20,7 @@ namespace WorkingWithMaps.Vistas.Reservas
     public partial class PagosVista : ContentPage
     {
         ReservaModelo Contexto => ((ReservaModelo)BindingContext);
-        
+
         //public string precio { get; set; }
         //public string description { get; set; }
         public PagosVista()
@@ -48,6 +48,7 @@ namespace WorkingWithMaps.Vistas.Reservas
             progress.IsVisible = false;
             try
             {
+                Contexto.IsBusy = true;
                 var urlweb = e.Url;
                 var url = urlweb.Split('?');
                 var ref_payco = url[1].Split('=');
@@ -60,6 +61,7 @@ namespace WorkingWithMaps.Vistas.Reservas
             catch (Exception)
             {
             }
+            Contexto.IsBusy = false;
 
         }
 
@@ -74,10 +76,22 @@ namespace WorkingWithMaps.Vistas.Reservas
             var response = await res.Content.ReadAsStringAsync();
             contenido = JsonConvert.DeserializeObject<EpayCoModelo>(response);
 
+            var goplay = new GoPlayServicio();
+            Contexto.Reto = refe;
+
+
             if (contenido.data.x_response == "Aceptada")
             {
                 //Acuatular el estado de la cancha
                 await DisplayAlert("", "Cancha reservada", "OK");
+                Contexto.Idestado = 2;
+                var ope = await goplay.PutActualizarAsync(Contexto, Url.urlReserva + "/" + Contexto.IdReserva);
+                if (ope.Estado == false)
+                {
+                    Contexto.IsBusy = false;
+                    await DisplayAlert("", "Lo sentomos al parecer hay un poblema \n vuelva a intentarlo", "OK");
+
+                }
                 //
             }
 
@@ -85,20 +99,40 @@ namespace WorkingWithMaps.Vistas.Reservas
             {
                 //Acuatular el estado de la cancha
                 await DisplayAlert("", "Si en 40 minutos no ha completado el pago \n su reserva sera cancelada", "OK");
-                //
+                Contexto.Idestado = 1;
+                var ope = await goplay.PutActualizarAsync(Contexto, Url.urlReserva+"/"+ Contexto.IdReserva);
+                if (ope.Estado == false)
+                {
+                    Contexto.IsBusy = false;
+                    await DisplayAlert("", "Lo sentomos al parecer hay un poblema \n vuelva a intentarlo", "OK");
+                    return;
+                }
             }
 
-           else if (contenido.data.x_response== "Rechazada")
+            else if (contenido.data.x_response == "Rechazada")
             {
                 //Eliminar la reserva
                 await DisplayAlert("", "El pago ha sido rechachazado \n Vulava a intentarlo", "OK");
-                //
+                var ope = await goplay.DeleteAsync(Url.urlReserva + "/" + Contexto.IdReserva);
+                if (ope.Estado == false)
+                {
+                    Contexto.IsBusy = false;
+                    await DisplayAlert("", "Lo sentomos al parecer hay un poblema \n vuelva a intentarlo", "OK");
+                    return;
+                }
             }
 
             else
             {
                 //Eliminar la reserva
                 await DisplayAlert("", "El pago ha sido rechachazado \n Vulava a intentarlo", "OK");
+                var ope = await goplay.DeleteAsync(Url.urlReserva + "/" + Contexto.IdReserva);
+                if (ope.Estado == false)
+                {
+                    Contexto.IsBusy = false;
+                    await DisplayAlert("", "Lo sentomos al parecer hay un poblema \n vuelva a intentarlo", "OK");
+                    return;
+                }
             }
 
 

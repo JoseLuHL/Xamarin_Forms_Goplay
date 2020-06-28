@@ -105,55 +105,52 @@ namespace PropertyApp.VistaModelo
 
                 return new DelegateCommand(async () =>
                 {
-
-                if (string.IsNullOrEmpty(hora))
-                {
-                    await Application.Current.MainPage.DisplayAlert("", "Por favor seleccione una hora", "OK");
-                    return;
-                }
-
-                if (string.IsNullOrEmpty(fecha))
-                {
-                    await Application.Current.MainPage.DisplayAlert("", "Por favor seleccione una fecha", "OK");
-                    return;
-                }
-
-                // VERIFICACION DEL NUMERO DE TELEFONO:::
-                //if (string.IsNullOrEmpty(codigoVerificacion))
-                //{
-
-                var tel = await Application.Current.MainPage.DisplayPromptAsync("GOPLAY:", "Numero de telefono", "OK", "Cancel", null, 10, keyboard: Keyboard.Numeric, "");
-                if (tel.Length == 10)
-                {
-                    var reserva = new ReservaModelo();
-                    AmazonWSnsn amazonW = new AmazonWSnsn();
-                    var codigo = await amazonW.VerificarTel(tel);
                     IsBusy = true;
-                    Concepto = $"Reserva de cancha {nombre} para la fecha {fecha} hora {hora} por el valor de {precio}";
-                    reserva.Idhorario = horariosSelect.Id;
-                    reserva.Idestado = 1;
-                    reserva.Fecha = horariosSelect.Fecha + " " + DateTime.Now.Date.ToShortTimeString();
-                    reserva.HoraInicio = horariosSelect.Hora;
-                    reserva.HoraFinal = horariosSelect.Precio.ToString();
-                    reserva.Idhorario = horariosSelect.Id;
-                    reserva.Reto = "NA";
-                    reserva.Tel = tel;
-                    reserva.codigoVerificacion = codigo;
-                    reserva.Usuario = tel;
-                    reserva.Reserva1 = concepto;
-                    codigoVerificacion = codigo;
-                    IsBusy = false;
-                    await Application.Current.MainPage.Navigation.PushModalAsync(
-                    new ConfirmarTelVista { BindingContext = reserva });
+                    if (string.IsNullOrEmpty(hora))
+                    {
+                        await Application.Current.MainPage.DisplayAlert("", "Por favor seleccione una hora", "OK");
+                        IsBusy = false;
+                        return;
+                    }
 
-                //    await Application.Current.MainPage.Navigation.PushModalAsync(
-                //new PagosVista { BindingContext = reserva });
+                    if (string.IsNullOrEmpty(fecha))
+                    {
+                        await Application.Current.MainPage.DisplayAlert("", "Por favor seleccione una fecha", "OK");
+                        IsBusy = false;
+                        return;
+                    }
+
+                    // VERIFICACION DEL NUMERO DE TELEFONO:::
+                    var tel = await Application.Current.MainPage.DisplayPromptAsync("GOPLAY:", "Numero de telefono", "OK", "Cancel", null, 10, keyboard: Keyboard.Numeric, "");
+                    if (tel.Length == 10)
+                    {
+                        var reserva = new ReservaModelo();
+                        AmazonWSnsn amazonW = new AmazonWSnsn();
+                        var codigo = await amazonW.VerificarTel(tel);
+
+                        Concepto = $"Reserva de cancha {nombre} para la fecha {fecha} hora {hora} por el valor de {precio}";
+                        reserva.Idhorario = horariosSelect.Id;
+                        reserva.Idestado = 6;
+                        reserva.Fecha = horariosSelect.Fecha + " " + DateTime.Now.ToShortTimeString();
+                        reserva.HoraInicio = horariosSelect.Hora;
+                        reserva.HoraFinal = horariosSelect.Precio.ToString();
+                        reserva.Idhorario = horariosSelect.Id;
+                        reserva.Reto = "";
+                        reserva.Tel = tel;
+                        reserva.codigoVerificacion = codigo;
+                        reserva.Usuario = tel;
+                        reserva.Reserva1 = concepto;
+                        codigoVerificacion = codigo;
+
+                        await Application.Current.MainPage.Navigation.PushModalAsync(
+                        new ConfirmarTelVista { BindingContext = reserva });
                     }
                     else
                     {
                         await Application.Current.MainPage.DisplayAlert("Error", "Numero de no valido", "OK");
                         return;
                     }
+                    IsBusy = false;
                     //}
                     //else
                     //{
@@ -278,7 +275,8 @@ namespace PropertyApp.VistaModelo
                 {
                     foreach (var res in item.Reserva)
                     {
-                        if (res.Fecha == fe && item.ProNombre == res.HoraInicio)
+                        var fecha = (res.Fecha.Length > 10) ? res.Fecha.Substring(0, 10).Trim() : res.Fecha;
+                        if (fecha == fe && item.ProNombre == res.HoraInicio)
                         {
                             if (res.IdestadoNavigation.Descripcion == "Ocupada")
                             {

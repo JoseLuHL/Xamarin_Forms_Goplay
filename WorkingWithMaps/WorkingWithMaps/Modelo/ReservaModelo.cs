@@ -7,6 +7,10 @@ namespace WorkingWithMaps.Modelo
 {
    public class ReservaModelo: BaseViewModel
     {
+        public ReservaModelo()
+        {
+            IsBusy = false;
+        }
         public int IdReserva { get; set; }
         public int Idhorario { get; set; }
         public string Fecha { get; set; }

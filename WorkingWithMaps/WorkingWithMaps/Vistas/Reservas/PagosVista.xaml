@@ -17,6 +17,7 @@
              Navigating="OnNavigating"
              Navigated="OnNavigated"
              VerticalOptions="FillAndExpand"/>
+            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"/>
             <Button Text="FINALIZAR"/>
         </StackLayout>
     </ContentPage.Content>

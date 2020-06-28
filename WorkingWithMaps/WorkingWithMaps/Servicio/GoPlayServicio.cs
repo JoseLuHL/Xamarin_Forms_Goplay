@@ -7,6 +7,8 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using WorkingWithMaps.Modelo;
+using WSGOPLAY.Models;
 
 namespace PropertyApp.Servicio
 {
@@ -73,10 +75,11 @@ namespace PropertyApp.Servicio
             return retornar[0];
         }
 
-        public async Task<Exitoso> PostGuardarAsync<T>(T datos, string url)
+        public async Task<T> PostGuardarAsync<T>(T datos, string url)
         {
             var re = new Exitoso();
             var json = JsonConvert.SerializeObject(datos);
+            var reserva = new ObservableCollection<T>() ;
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             try
             {
@@ -84,6 +87,7 @@ namespace PropertyApp.Servicio
                 if (peti.IsSuccessStatusCode)
                 {
                     var conte = await peti.Content.ReadAsStringAsync();
+                    reserva.Add( JsonConvert.DeserializeObject<T>(conte));
                     re.Estado = true;
                 }
                 else
@@ -98,7 +102,7 @@ namespace PropertyApp.Servicio
                 re.Estado = false;
 
             }
-            return re;
+            return reserva[0];
         }
         public async Task<Exitoso> PutActualizarAsync<T>(T datos, string url)
         {
@@ -127,7 +131,7 @@ namespace PropertyApp.Servicio
             }
             return re;
         }
-        public async Task<Exitoso> DeleteAsync<T>(string url)
+        public async Task<Exitoso> DeleteAsync(string url)
         {
             var re = new Exitoso();
             try

@@ -38,21 +38,17 @@ namespace WorkingWithMaps.Vistas.Reservas
                 return;
             }
 
-            //var confirmar = await Application.Current.MainPage.DisplayAlert("Confirmar",
-            //    $"Datos de la reserva \n\n Cancha: {contexto.} \n Fecha: {contexto.fecha} \n Hora: {contextohora} \n Precio: {contextoprecio} ",
-            //    "SI", "NO");
-            //if (!confirmar)
-            //    return;
             try
             {
                 var goplay = new GoPlayServicio();
                 var res = await goplay.PostGuardarAsync(contexto, Url.urlReserva);
-                if (res.Estado == false)
+                if (res == null)
                 {
                     contexto.IsBusy = false;
                     await DisplayAlert("", "Lo sentomos al parecer hay un poblema \n vuelva a intentarlo", "OK");
                     return;
                 }
+                contexto.IdReserva = res.IdReserva;
                 await Application.Current.MainPage.Navigation.PushModalAsync(new PagosVista { BindingContext = contexto });
             }
             catch (Exception ex)
