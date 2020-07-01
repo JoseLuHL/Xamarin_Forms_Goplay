@@ -16,7 +16,10 @@
     </ContentPage.BindingContext>  Date="{Binding Fecha}"-->
     
     <ContentPage.Content>
-        <StackLayout>
+
+        <AbsoluteLayout Padding="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+
+            <StackLayout>
 
                 <StackLayout BackgroundColor="#0B5894" >
 
@@ -33,6 +36,9 @@
                     <ActivityIndicator 
                         IsVisible="{Binding IsBusy}" 
                         IsRunning="{Binding IsBusy}" />
+
+
+
                 </StackLayout>
                     
                 <ListView SeparatorVisibility="Default" 
@@ -118,5 +124,16 @@
                 </StackLayout>
         </StackLayout>
 
+            <ContentView IsVisible="{Binding IsBusy}" BackgroundColor="#C0808080" Padding="10, 0" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                    <StackLayout Orientation="Vertical" HeightRequest="150" WidthRequest="200" BackgroundColor="Transparent">
+                        <ActivityIndicator  IsRunning="{Binding IsBusy}" Margin="0,50,0,0" VerticalOptions="Center" HorizontalOptions="Center" Color="Black" WidthRequest="30" HeightRequest="30" ></ActivityIndicator>
+                        <Label x:Name="lblLoadingText" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Center" VerticalTextAlignment="Center" Text="Cargando..."></Label>
+                    </StackLayout>
+                </StackLayout>
+            </ContentView>
+            
+            
+        </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>

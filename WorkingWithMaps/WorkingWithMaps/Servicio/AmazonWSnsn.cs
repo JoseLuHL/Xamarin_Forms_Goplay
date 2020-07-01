@@ -10,14 +10,14 @@ namespace WorkingWithMaps.Servicio
     {
         public async Task<string> VerificarTel(string cel)
         {
-            var Key = "AKIAIJAV3SIFSIKGKVIQ";
-            var secre = "W+SY04nokazbszs1Pt7fxy0x89K8qsXZJ1eWXKR9";
-            AmazonSimpleNotificationServiceClient snsClient = new AmazonSimpleNotificationServiceClient(Key, secre, Amazon.RegionEndpoint.USWest2);
-            PublishRequest pubRequest = new PublishRequest();
+            //var Key = "AKIAIJAV3SIFSIKGKVIQ";
+            //var secre = "W+SY04nokazbszs1Pt7fxy0x89K8qsXZJ1eWXKR9";
+            //AmazonSimpleNotificationServiceClient snsClient = new AmazonSimpleNotificationServiceClient(Key, secre, Amazon.RegionEndpoint.USWest2);
+            //PublishRequest pubRequest = new PublishRequest();
             var codigo = GenerarCodigoVerificacion();
-            pubRequest.Message = $"GOPLAY: {codigo} es tu codigo";
-            pubRequest.PhoneNumber = $"+57{cel}";
-            PublishResponse pubResponse = await snsClient.PublishAsync(pubRequest);
+            //pubRequest.Message = $"GOPLAY: {codigo} es tu codigo";
+            //pubRequest.PhoneNumber = $"+57{cel}";
+            //PublishResponse pubResponse = await snsClient.PublishAsync(pubRequest);
             return codigo;
         }
 

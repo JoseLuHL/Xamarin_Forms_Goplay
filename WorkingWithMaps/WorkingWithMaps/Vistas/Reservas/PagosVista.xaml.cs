@@ -90,7 +90,6 @@ namespace WorkingWithMaps.Vistas.Reservas
                 {
                     Contexto.IsBusy = false;
                     await DisplayAlert("", "Lo sentomos al parecer hay un poblema \n vuelva a intentarlo", "OK");
-
                 }
                 //
             }

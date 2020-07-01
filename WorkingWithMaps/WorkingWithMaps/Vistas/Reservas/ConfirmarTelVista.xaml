@@ -6,12 +6,26 @@
              mc:Ignorable="d"
              x:Class="WorkingWithMaps.Vistas.Reservas.ConfirmarTelVista">
     <ContentPage.Content>
-        <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" >
+        <AbsoluteLayout Padding="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+        
+            <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" >
             <Label Text="" x:Name="Lblmensaje" HorizontalOptions="CenterAndExpand"/>
             <Label Text="Por favor ingrese el codigo de verificacion" FontSize="Large"/>
             <Entry FontSize="35" x:Name="TxtCodigoverificacion"></Entry>
             <Button Text="Continuar" x:Name="BtnContinuar" Clicked="BtnContinuar_Clicked"></Button>
+
             <ActivityIndicator IsRunning="{Binding IsBusy}"/>
         </StackLayout>
+
+        <ContentView IsVisible="{Binding IsBusy}"  BackgroundColor="#C0808080" Padding="10, 0" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+            <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                <StackLayout Orientation="Vertical" HeightRequest="150" WidthRequest="200" BackgroundColor="Transparent">
+                    <ActivityIndicator  IsRunning="{Binding IsBusy}" Margin="0,50,0,0" VerticalOptions="Center" HorizontalOptions="Center" Color="Black" WidthRequest="30" HeightRequest="30" ></ActivityIndicator>
+                    <Label x:Name="lblLoadingText" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Center" VerticalTextAlignment="Center" Text="Cargando..."></Label>
+                </StackLayout>
+            </StackLayout>
+        </ContentView>
+            
+        </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -24,7 +24,6 @@ namespace PlacesApp.Views
             this.id = id;
             //descriptionContainer.FadeTo(1, 350, Easing.CubicInOut);
             //descriptionContainer.TranslateTo(0, 0, 350, Easing.CubicInOut);
-            
         }
 
 

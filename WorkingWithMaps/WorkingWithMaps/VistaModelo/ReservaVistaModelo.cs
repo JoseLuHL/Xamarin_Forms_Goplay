@@ -142,8 +142,13 @@ namespace PropertyApp.VistaModelo
                         reserva.Reserva1 = concepto;
                         codigoVerificacion = codigo;
 
-                        await Application.Current.MainPage.Navigation.PushModalAsync(
+                        var respuesta = await Application.Current.MainPage.DisplayAlert("", "Debe completar la reserva en 15 minutos \n pasado el tiempo la cancha estara disponible", "OK", "CANCELAR");
+                        if (respuesta)
+                        {
+                            await Application.Current.MainPage.Navigation.PushModalAsync(
                         new ConfirmarTelVista { BindingContext = reserva });
+                        }
+
                     }
                     else
                     {
@@ -151,13 +156,6 @@ namespace PropertyApp.VistaModelo
                         return;
                     }
                     IsBusy = false;
-                    //}
-                    //else
-                    //{
-                    //    await Application.Current.MainPage.Navigation.PushModalAsync(
-                    //           new ConfirmarTelVista { BindingContext = reserva });
-                    //}
-
                 });
             }
         }
@@ -254,81 +252,112 @@ namespace PropertyApp.VistaModelo
 
         private async void Load()
         {
-            IsBusy = true;
-            var PaginaHorario = await goplayServicio.Get<WoPages>(Url.urlPagesid + idCancha);
-            var horario = new ObservableCollection<HorarioModelo>();
-            var fe = Convert.ToDateTime(this.fecha).ToString().Substring(0, 10).Trim();
-
-            foreach (var item in PaginaHorario.Horario)
+            try
             {
-                var variables = new HorarioModelo();
-                variables.Id = item.Id;
-                variables.NombreCancha = PaginaHorario.PageTitle;
-                variables.Imagen = PaginaHorario.Avatar;
-                variables.Hora = item.ProNombre;
-                if (string.IsNullOrEmpty(item.ProPrecio))
-                    variables.Precio = Convert.ToDecimal(0);
-                else
-                    variables.Precio = Convert.ToDecimal(item.ProPrecio);
+                IsBusy = true;
+                //var PaginaHorario = await goplayServicio.Get<WoPages>(Url.urlPagesid + idCancha);
 
-                if (item.Reserva.Count > 0)
+                var horario = new ObservableCollection<HorarioModelo>();
+                var fe = Convert.ToDateTime(this.fecha).ToString().Substring(0, 10).Trim();
+                var PaginaHorario = await goplayServicio.GetDatoAsync<WoPages>(Url.urlPageHorario + idCancha);
+                var reservaCancha = await goplayServicio.GetDatosAsync<Reserva>(Url.urlReservaCancha + idCancha + "/" + fe.Replace("/", ""));
+
+                if (PaginaHorario == null)
                 {
-                    foreach (var res in item.Reserva)
+                    await Application.Current.MainPage.DisplayAlert("", "Sin resultados", "OK");
+                    return;
+                }
+
+                foreach (var item in PaginaHorario.Horario)
+                {
+                    var variables = new HorarioModelo();
+                    variables.Id = item.Id;
+                    variables.NombreCancha = PaginaHorario.PageTitle;
+                    variables.Imagen = PaginaHorario.Avatar;
+                    variables.Hora = item.ProNombre;
+                    if (string.IsNullOrEmpty(item.ProPrecio))
+                        variables.Precio = Convert.ToDecimal(0);
+                    else
+                        variables.Precio = Convert.ToDecimal(item.ProPrecio);
+
+                    if (reservaCancha.Count > 0)
                     {
-                        var fecha = (res.Fecha.Length > 10) ? res.Fecha.Substring(0, 10).Trim() : res.Fecha;
-                        if (fecha == fe && item.ProNombre == res.HoraInicio)
+                        foreach (var res in reservaCancha)
                         {
-                            if (res.IdestadoNavigation.Descripcion == "Ocupada")
+                            var fecha = (res.Fecha.Length > 10) ? res.Fecha.Substring(0, 10).Trim() : res.Fecha;
+                            if (fecha == fe && item.ProNombre == res.HoraInicio)
                             {
-                                variables.Estado = res.IdestadoNavigation.Descripcion;
+                                if (res.IdestadoNavigation.Descripcion == "Ocupada")
+                                {
+                                    variables.Estado = res.IdestadoNavigation.Descripcion;
+                                    variables.Color = "Red";
+                                    variables.idEstado = res.IdestadoNavigation.Id;
+
+                                }
+                                if (res.IdestadoNavigation.Descripcion == "Pendiente")
+                                {
+                                    variables.Estado = res.IdestadoNavigation.Descripcion;
+                                    variables.Color = "Orange";
+                                    variables.idEstado = res.IdestadoNavigation.Id;
+                                }
+
+                                if (res.IdestadoNavigation.Descripcion == "En reserva")
+                                {
+                                    variables.Estado = res.IdestadoNavigation.Descripcion;
+                                    variables.Color = "Yellow";
+                                    variables.idEstado = res.IdestadoNavigation.Id;
+                                }
+
+                                if (res.IdestadoNavigation.Descripcion == "Pagada")
+                                {
+                                    variables.Estado = res.IdestadoNavigation.Descripcion;
+                                    variables.Color = "Blue";
+                                    variables.idEstado = res.IdestadoNavigation.Id;
+                                }
+
+                            }
+                            else
+                            {
+                                variables.Estado = "Disponible";
+                                variables.idEstado = 3;
+                                variables.Color = "Green";
+                            }
+                        }
+                    }
+                    else
+                    {
+                        variables.Estado = "Disponible";
+                        variables.idEstado = 3;
+                        variables.Color = "Green";
+                    }
+
+
+                    if (item.Sinreserva.Count > 0)
+                    {
+                        foreach (var sinreserva in item.Sinreserva)
+                        {
+                            if (sinreserva.Sinidhorario == item.Id && fe == sinreserva.Sinfecha)
+                            {
+                                variables.Estado = "Cerrado";
                                 variables.Color = "Red";
-                                variables.idEstado = res.IdestadoNavigation.Id;
+                                variables.idEstado = 4;
 
                             }
-                            if (res.IdestadoNavigation.Descripcion == "Pendiente")
-                            {
-                                variables.Estado = res.IdestadoNavigation.Descripcion;
-                                variables.Color = "Orange";
-                                variables.idEstado = res.IdestadoNavigation.Id;
-                            }
-
-                        }
-                        else
-                        {
-                            variables.Estado = "Disponible";
-                            variables.idEstado = 3;
-                            variables.Color = "Green";
                         }
                     }
+
+                    variables.Fecha = this.Fecha;
+
+                    horario.Add(variables);
                 }
-                else
-                {
-                    variables.Estado = "Disponible";
-                    variables.idEstado = 3;
-                    variables.Color = "Green";
-                }
-
-
-                if (item.Sinreserva.Count > 0)
-                {
-                    foreach (var sinreserva in item.Sinreserva)
-                    {
-                        if (sinreserva.Sinidhorario == item.Id && fe == sinreserva.Sinfecha)
-                        {
-                            variables.Estado = "Cerrado";
-                            variables.Color = "Red";
-                            variables.idEstado = 4;
-
-                        }
-                    }
-                }
-
-                variables.Fecha = this.Fecha;
-
-                horario.Add(variables);
+                Horarios = horario;
+                IsBusy = false;
             }
-            Horarios = horario;
-            IsBusy = false;
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("", ex.ToString(), "OK");
+                throw;
+            }
             //await Application.Current.MainPage.DisplayAlert("", Horarios.Count.ToString(), "OK");
         }
 

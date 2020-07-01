@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorkingWithMaps.Modelo;
+using WorkingWithMaps.Servicio;
 using WSGOPLAY.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -25,6 +26,7 @@ namespace WorkingWithMaps.Vistas.Reservas
         protected override void OnAppearing()
         {
             base.OnAppearing();
+            TxtCodigoverificacion.Text = contexto.codigoVerificacion;
             Lblmensaje.Text = $"Se ha enviado un mensaje a su telefono {contexto.Tel}";
         }
 
@@ -34,30 +36,35 @@ namespace WorkingWithMaps.Vistas.Reservas
             if (TxtCodigoverificacion.Text.Trim() != contexto.codigoVerificacion)
             {
                 await DisplayAlert("Error", "Numero de verificacion no valido", "OK");
-                contexto.IsBusy =false;
+                contexto.IsBusy = false;
                 return;
             }
-
             try
             {
-                var goplay = new GoPlayServicio();
-                var res = await goplay.PostGuardarAsync(contexto, Url.urlReserva);
-                if (res == null)
+                var es = await ReservaEstadoStatic.Estado(contexto.Idhorario, contexto.Fecha, contexto.HoraInicio);
+                if (es == false)
                 {
-                    contexto.IsBusy = false;
-                    await DisplayAlert("", "Lo sentomos al parecer hay un poblema \n vuelva a intentarlo", "OK");
-                    return;
+                    var goplay = new GoPlayServicio();
+                    var res = await goplay.PostGuardarAsync(contexto, Url.urlReserva);
+
+                    if (res == null)
+                    {
+                        contexto.IsBusy = false;
+                        await DisplayAlert("", "Lo sentomos al parecer hay un poblema \n vuelva a intentarlo", "OK");
+                        return;
+                    }
+                    contexto.IdReserva = res.IdReserva;
                 }
-                contexto.IdReserva = res.IdReserva;
+
                 await Application.Current.MainPage.Navigation.PushModalAsync(new PagosVista { BindingContext = contexto });
             }
             catch (Exception ex)
             {
                 await DisplayAlert("", ex.ToString(), "OK");
+                //await Application.Current.MainPage.Navigation.PushModalAsync(new PagosVista { BindingContext = contexto });
                 contexto.IsBusy = false;
             }
             contexto.IsBusy = false;
-
         }
     }
 }

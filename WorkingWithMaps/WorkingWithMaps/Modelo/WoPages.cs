@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace WSGOPLAY.Models
 {
@@ -42,7 +43,7 @@ namespace WSGOPLAY.Models
         public string Boosted { get; set; }
         public double Lat { get; set; }
         public double Lng { get; set; }
-        public virtual List<Horario> Horario { get; set; }
+        public virtual ObservableCollection<Horario> Horario { get; set; }
 
     }
 }
