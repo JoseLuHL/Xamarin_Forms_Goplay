@@ -1,7 +1,9 @@
-﻿using PropertyApp.Servicio;
+﻿using Newtonsoft.Json;
+using PropertyApp.Servicio;
 using PropertyApp.url;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using WSGOPLAY.Models;
@@ -15,8 +17,12 @@ namespace WorkingWithMaps.Servicio
             var r = false;
             fecha = (fecha.Length > 10) ? fecha.Replace("/", "").Replace(".", "").Substring(0, 9) : fecha.Replace("/", "").Replace(".", "");
             var servicio = new GoPlayServicio();
-            var res = await servicio.GetDatoAsync<Reserva>(Url.urlReservaEstado + idHorario + "/" + fecha + "/" + hora);
-            if (res != null)
+            HttpClient client = new HttpClient();
+            var response = await client.GetAsync(Url.urlReservaEstado + idHorario + "/" + fecha + "/" + hora);
+            var json = await response.Content.ReadAsStringAsync();
+            var res = JsonConvert.DeserializeObject<Reserva>(json);
+            //var res = await servicio.GetDatoAsync<Reserva>(Url.urlReservaEstado + idHorario + "/" + fecha + "/" + hora);
+            if (res != null )
                 r = true;
 
             return r;

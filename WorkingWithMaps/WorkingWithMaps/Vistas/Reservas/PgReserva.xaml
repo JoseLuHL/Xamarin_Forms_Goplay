@@ -14,14 +14,13 @@
     <!--<ContentPage.BindingContext>
         <vn1:Place/>
     </ContentPage.BindingContext>  Date="{Binding Fecha}"-->
-    
+
     <ContentPage.Content>
+        <ScrollView   HeightRequest="100" VerticalOptions="FillAndExpand">
 
-        <AbsoluteLayout Padding="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
 
-            <StackLayout>
-
-                <StackLayout BackgroundColor="#0B5894" >
+            <AbsoluteLayout x:Name="absLayout" >
+                <StackLayout BackgroundColor="#0B5894"  >
 
                 <DatePicker Style="{StaticResource fuenteLabel}" 
                             TextColor="White"
@@ -32,38 +31,37 @@
                             HorizontalOptions="CenterAndExpand" 
                             WidthRequest="250"/>
 
-                <StackLayout IsVisible="{Binding IsBusy}">
-                    <ActivityIndicator 
+                <!--<StackLayout IsVisible="{Binding IsBusy}">
+                    --><!--<ActivityIndicator 
                         IsVisible="{Binding IsBusy}" 
-                        IsRunning="{Binding IsBusy}" />
+                        IsRunning="{Binding IsBusy}" />--><!--
+                </StackLayout>-->
 
-
-
-                </StackLayout>
-                    
-                <ListView SeparatorVisibility="Default" 
+                    <StackLayout  AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                            <ListView SeparatorVisibility="Default" 
+                                    AbsoluteLayout.LayoutBounds=".5,1,50,50" AbsoluteLayout.LayoutFlags="All"  
                           Margin="0,0,2,0" 
                           ItemsSource="{Binding Horarios}" 
                           x:Name="lstReservaciones" 
                           ItemSelected="listViewEjemplo1_ItemSelected"
                           BackgroundColor="White" 
                           HasUnevenRows="true"
-                          HorizontalOptions="FillAndExpand">                    
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <ViewCell>
-                                    <StackLayout Margin="3,5,20,5" Spacing="0" >
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="*" />
-                                                <RowDefinition Height="*" />
-                                                <RowDefinition Height="Auto" />
-                                            </Grid.RowDefinitions>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
+                          HorizontalOptions="FillAndExpand">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell>
+                                            <StackLayout Margin="3,5,20,5" Spacing="0" >
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="*" />
+                                                        <RowDefinition Height="*" />
+                                                        <RowDefinition Height="Auto" />
+                                                    </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
 
-                                        <Label Style="{StaticResource fuenteLabel}" 
+                                                    <Label Style="{StaticResource fuenteLabel}" 
                                                Text="{Binding NombreCancha}"
                                                Margin="0,0,0,0"
                                                VerticalOptions="End"
@@ -71,69 +69,78 @@
                                                TextColor="Black"
                                                FontSize="20" 
                                                Grid.ColumnSpan="2" />
-                                            <BoxView  Grid.Row="0" 
+                                                    <BoxView  Grid.Row="0" 
                                                   Grid.RowSpan="3" 
                                                   Margin="5,0,0,0" 
                                                   BackgroundColor="Black" 
                                                   WidthRequest="3" 
                                                   VerticalOptions="FillAndExpand" 
                                                   HorizontalOptions="Start"/>
-                                            <StackLayout Grid.Row="1" Grid.ColumnSpan="2" 
+                                                    <StackLayout Grid.Row="1" Grid.ColumnSpan="2" 
                                                          Spacing="0" 
                                                          HorizontalOptions="CenterAndExpand">
-                                                <StackLayout  
+                                                        <StackLayout  
                                                      HorizontalOptions="CenterAndExpand"
                                                      Orientation="Horizontal">
 
-                                                    <Image Source="fecha.png"
+                                                            <Image Source="fecha.png"
                                                    HorizontalOptions="Center"/>
-                                                <Label Style="{StaticResource fuenteLabel}" 
+                                                            <Label Style="{StaticResource fuenteLabel}" 
                                                        Text="{Binding Fecha}" 
                                                        FontAttributes="Italic" 
                                                        HorizontalTextAlignment="Center" 
                                                        HorizontalOptions="CenterAndExpand"/>
-                                                </StackLayout>
+                                                        </StackLayout>
 
-                                                <StackLayout 
+                                                        <StackLayout 
                                                      HorizontalOptions="CenterAndExpand"
                                                      Orientation="Horizontal">
-                                                    <Image Source="hora.png"
+                                                            <Image Source="hora.png"
                                                    HorizontalOptions="Center"/>
-                                                    <Label Text="{Binding Hora}" FontAttributes="Bold"/>
-                                                </StackLayout>
-                                            <Label Style="{StaticResource fuenteLabel}" 
+                                                            <Label Text="{Binding Hora}" FontAttributes="Bold"/>
+                                                        </StackLayout>
+                                                        <Label Style="{StaticResource fuenteLabel}" 
                                                    Text="{Binding Estado}" 
                                                    TextColor="{Binding Color}"
                                                    FontAttributes="Bold"
                                                    HorizontalTextAlignment="Center"/>
-                                            </StackLayout>
+                                                    </StackLayout>
 
 
-                                        <Label Style="{StaticResource fuenteLabel}" 
+                                                    <Label Style="{StaticResource fuenteLabel}" 
                                                HorizontalTextAlignment="Center"  
                                                Grid.Row="2" Grid.ColumnSpan="2"
                                                 Text="{Binding Precio, Converter={StaticResource currencyConverter}}" 
                                                FontAttributes="Bold" FontSize="25"/>
 
-                                        </Grid>
-                                    </StackLayout>
-                                </ViewCell>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </StackLayout>
-        </StackLayout>
+                                                </Grid>
+                                            </StackLayout>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
 
-            <ContentView IsVisible="{Binding IsBusy}" BackgroundColor="#C0808080" Padding="10, 0" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
-                <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
-                    <StackLayout Orientation="Vertical" HeightRequest="150" WidthRequest="200" BackgroundColor="Transparent">
-                        <ActivityIndicator  IsRunning="{Binding IsBusy}" Margin="0,50,0,0" VerticalOptions="Center" HorizontalOptions="Center" Color="Black" WidthRequest="30" HeightRequest="30" ></ActivityIndicator>
-                        <Label x:Name="lblLoadingText" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Center" VerticalTextAlignment="Center" Text="Cargando..."></Label>
+                    
                     </StackLayout>
+
+
+
                 </StackLayout>
-            </ContentView>
+
+                <ContentView IsVisible="{Binding IsBusy}" BackgroundColor="#C0808080" Padding="10, 0" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                    <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                        <StackLayout Orientation="Vertical" HeightRequest="150" WidthRequest="200" BackgroundColor="Transparent">
+                            <ActivityIndicator  IsRunning="{Binding IsBusy}" Margin="0,50,0,0" VerticalOptions="Center" HorizontalOptions="Center" Color="Black" WidthRequest="30" HeightRequest="30" ></ActivityIndicator>
+                            <Label x:Name="lblLoadingText" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Center" VerticalTextAlignment="Center" Text="Cargando..."></Label>
+                        </StackLayout>
+                    </StackLayout>
+                </ContentView>
+            </AbsoluteLayout>
+
+
             
             
-        </AbsoluteLayout>
+        </ScrollView>
+
     </ContentPage.Content>
 </ContentPage>

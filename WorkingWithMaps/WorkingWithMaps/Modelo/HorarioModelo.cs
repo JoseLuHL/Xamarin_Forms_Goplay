@@ -13,8 +13,9 @@ namespace PropertyApp.Modelo
         public string Hora { get; set; }
         public string Estado { get; set; }
         public string Color { get; set; }
+        public bool IsBoton { get; set; } = true;
         public decimal Precio { get; set; }
-        public int idEstado { get; set; }
+        public int? idEstado { get; set; }
         public string Usuario { get; set; }
     }
 }

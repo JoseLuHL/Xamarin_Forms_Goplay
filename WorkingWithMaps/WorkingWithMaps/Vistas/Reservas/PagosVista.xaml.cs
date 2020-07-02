@@ -35,7 +35,7 @@ namespace WorkingWithMaps.Vistas.Reservas
             //var c = Contexto;
             base.OnAppearing();
             await progress.ProgressTo(0.9, 900, Easing.SpringIn);
-            TasAsync();
+            await TasAsync();
         }
 
         protected void OnNavigating(object sender, WebNavigatingEventArgs e)
@@ -62,7 +62,6 @@ namespace WorkingWithMaps.Vistas.Reservas
             {
             }
             Contexto.IsBusy = false;
-
         }
 
         async Task Epayco(string refe)

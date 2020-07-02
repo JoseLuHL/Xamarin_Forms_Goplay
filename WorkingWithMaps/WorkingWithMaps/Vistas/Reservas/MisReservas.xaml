@@ -2,99 +2,68 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:PanCake="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" xmlns:vm="clr-namespace:PlacesApp.ViewModels.Equipo"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:PanCake="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:vm11="clr-namespace:PropertyApp.VistaModelo"
              mc:Ignorable="d"
              NavigationPage.HasNavigationBar="False"
              x:Class="PlacesApp.Views.MisReservas">
-    
+    <ContentPage.BindingContext>
+        <vm11:ReservaVistaModelo/>
+    </ContentPage.BindingContext>
     <ContentPage.Content>
-        <StackLayout Margin="15,42,15,0">
+        <AbsoluteLayout Padding="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+
+            <StackLayout Margin="15,42,15,0">
             <!--<Button Text="Buscar" />-->
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    
-                </Grid.RowDefinitions>
-                <SearchBar x:Name="searchBar"
-                       Placeholder="Ingrese numero de celular"
-                       SearchCommand="{Binding buscarComando}"
-                       TextChanged="searchBar_TextChanged"
-                       SearchCommandParameter="{Binding Text , Source={x:Reference searchBar}}"/>
+                <SearchBar Text="{Binding Telefono}" x:Name="SearchBar" Placeholder="ingrese su usuario" SearchCommand="{Binding buscarReserca}" SearchCommandParameter="{Binding Text, Source={x:Reference SearchBar}}" />
 
-                <ContentView IsVisible="{Binding IsBusy}" BackgroundColor="#C0808080" Padding="10, 0" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
-                    <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
-                        <StackLayout Orientation="Vertical" HeightRequest="150" WidthRequest="200" BackgroundColor="Transparent">
-                            <ActivityIndicator IsRunning="{Binding IsBusy}" Margin="0,50,0,0" VerticalOptions="Center" HorizontalOptions="Center" Color="Black" WidthRequest="30" HeightRequest="30" ></ActivityIndicator>
-                            <Label  TextColor="Black" VerticalOptions="Center" HorizontalOptions="Center" VerticalTextAlignment="Center" Text="Cargando..."></Label>
-                        </StackLayout>
-                    </StackLayout>
-                </ContentView>
-                <ActivityIndicator Grid.Column="1" IsVisible="{Binding IsActivado}" IsRunning="{Binding IsActivado}" Color="Red"></ActivityIndicator>
-            </Grid>
 
-            <!--<SearchBar Placeholder="Ingrese numero de celular"  />-->
-            <!--<ListView
-                ItemsSource="{Binding Reservas}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            
-                            
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>-->
-
-            <CollectionView ItemsSource="{Binding Reservas}"
+            <CollectionView ItemsSource="{Binding MisReservas}"
                 x:Name="vistaReservas"
                 SelectionChanged="vistaReservas_SelectionChanged"
                 SelectionChangedCommand="{Binding vistaReservaComan}"
                             SelectionChangedCommandParameter="{Binding SelectedItem, Source={x:Reference vistaReservas}}"
                                 Margin="20"
-                SelectionMode="Single"
-                                VerticalOptions="CenterAndExpand"
-                                >
+                SelectionMode="Single" VerticalOptions="CenterAndExpand" >
+                
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
+
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <PanCake:PancakeView Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" BackgroundColor="White" CornerRadius="15,15,15,15"  Margin="0,0,15,0" VerticalOptions="FillAndExpand" WidthRequest="80" HeightRequest="90">
-                                <Image Source="{Binding Cancha.Foto}" Aspect="Fill" />
-                            </PanCake:PancakeView>
-
-                            <Label Grid.Row="0" Grid.Column="1" Text="{Binding Cancha.Nombre}" FontAttributes="Bold"/>
-                            <Label Grid.Row="1" Grid.Column="1" Text="{Binding Fecha}" TextColor="Silver"/>
-                            <Label Grid.Row="2" Grid.Column="1" Text="{Binding HoraInicio}" TextColor="Silver"/>
-                            <Label Grid.Row="3" Grid.Column="1" Text="{Binding HoraFinal}" TextColor="#a97352" FontAttributes="Bold"/>
+                                <PanCake:PancakeView Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" BackgroundColor="White" CornerRadius="15,15,15,15"  Margin="0,0,15,0" VerticalOptions="FillAndExpand" WidthRequest="80" HeightRequest="90">
+                                    <Image Source="{Binding IdhorarioNavigation.IdCanchaNavigation.Avatar}" Aspect="Fill" />
+                                </PanCake:PancakeView>
+                            
+                                <StackLayout Grid.Column="1">
+                                    <Label  Text="{Binding IdhorarioNavigation.IdCanchaNavigation.PageTitle}" FontAttributes="Bold"/>
+                                    <Label  Text="{Binding Fecha}" TextColor="Silver"/>
+                                    <Label  Text="{Binding HoraInicio}" TextColor="Silver"/>
+                                    <Label  Text="{Binding IdestadoNavigation.Descripcion}" TextColor="Silver"/>
+                                    <Label  Text="{Binding HoraFinal}" TextColor="#a97352" FontAttributes="Bold"/>
+                                </StackLayout>
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            <!--<ListView ItemsSource="{Binding Reservas}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <StackLayout>
-                                <Label Text="{Binding Fecha}"></Label>
-                                <Label Text="{Binding NombreCancha}"></Label>
-                            </StackLayout>                            
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>-->
         </StackLayout>
+            
+            <ContentView IsVisible="{Binding IsBusy}" BackgroundColor="#C0808080" Padding="10, 0" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                    <StackLayout Orientation="Vertical" HeightRequest="150" WidthRequest="200" BackgroundColor="Transparent">
+                        <ActivityIndicator IsRunning="{Binding IsBusy}" Margin="0,50,0,0" VerticalOptions="Center" HorizontalOptions="Center" Color="Black" WidthRequest="30" HeightRequest="30" ></ActivityIndicator>
+                        <Label  TextColor="Black" VerticalOptions="Center" HorizontalOptions="Center" VerticalTextAlignment="Center" Text="Cargando..."></Label>
+                    </StackLayout>
+                </StackLayout>
+            </ContentView>
+        </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>

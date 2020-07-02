@@ -13,8 +13,9 @@
     <ContentPage.BindingContext>
         <vm1:MainPageVistaModel/>
     </ContentPage.BindingContext>
-
-    <Grid BackgroundColor="#F9F9F9" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="20">
+    
+    <AbsoluteLayout Padding="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+        <Grid BackgroundColor="#F9F9F9" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="14">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -28,7 +29,6 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                
                 <!--<Image HeightRequest="20" WidthRequest="20" Margin="20,0" Source="search.png"/>-->
                 <!--<SearchBar Grid.Column="1" SearchCommand="{Binding BuscarComando}" x:Name="searchBar" 
                            TextColor="Black" FontFamily="ThemeFontRegular" HorizontalOptions="FillAndExpand" 
@@ -58,9 +58,8 @@
         </Frame>
 
         <StackLayout Grid.Row="1" Spacing="0">
-            <ActivityIndicator IsVisible="{Binding IsOcupado}" IsRunning="{Binding IsOcupado}"/>
+            <!--<ActivityIndicator IsVisible="{Binding IsOcupado}" IsRunning="{Binding IsOcupado}"/>-->
             <Label Text="{Binding ResultadoBusqueda}" Style="{StaticResource fuenteLabel}" />
-
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -80,7 +79,6 @@
                 <Button Text="Salir"  Style="{StaticResource fuenteButton}"  IsVisible="{Binding IsLogueadoNO}" BackgroundColor="#F9F1F9" x:Name="CerrarSesion" Clicked="CerrarSesion_Clicked" VerticalOptions="StartAndExpand" HeightRequest="40" Grid.Column="1" HorizontalOptions="End"></Button>
 
             </Grid>
-
             
                 <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
                 <StackLayout Orientation="Horizontal" Spacing="10" BindableLayout.ItemsSource="{Binding PropertyTypeList}">
@@ -174,4 +172,15 @@
         </RefreshView>
     </Grid>
 
+        <ContentView IsVisible="{Binding IsBusy}"  BackgroundColor="#C0808080" Padding="10, 0" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+            <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                <StackLayout Orientation="Vertical" HeightRequest="150" WidthRequest="200" BackgroundColor="Transparent">
+                    <ActivityIndicator  IsRunning="{Binding IsBusy}" Margin="0,50,0,0" VerticalOptions="Center" HorizontalOptions="Center" Color="Black" WidthRequest="30" HeightRequest="30" ></ActivityIndicator>
+                    <Label x:Name="lblLoadingText" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Center" VerticalTextAlignment="Center" Text="Cargando..."></Label>
+                </StackLayout>
+            </StackLayout>
+        </ContentView>
+        
+        
+    </AbsoluteLayout>
 </ContentPage>

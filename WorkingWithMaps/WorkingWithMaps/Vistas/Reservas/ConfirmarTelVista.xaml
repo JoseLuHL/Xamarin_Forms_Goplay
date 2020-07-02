@@ -14,7 +14,7 @@
             <Entry FontSize="35" x:Name="TxtCodigoverificacion"></Entry>
             <Button Text="Continuar" x:Name="BtnContinuar" Clicked="BtnContinuar_Clicked"></Button>
 
-            <ActivityIndicator IsRunning="{Binding IsBusy}"/>
+            <!--<ActivityIndicator IsRunning="{Binding IsBusy}"/>-->
         </StackLayout>
 
         <ContentView IsVisible="{Binding IsBusy}"  BackgroundColor="#C0808080" Padding="10, 0" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">

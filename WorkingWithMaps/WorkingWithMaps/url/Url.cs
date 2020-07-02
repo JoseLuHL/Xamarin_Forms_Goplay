@@ -13,6 +13,7 @@ namespace PropertyApp.url
         public static string urlReserva  => $"{urlBase}Reservas";
         public static string urlReservaCancha  => $"{urlBase}Reservas/cancha/"; //ENVIAR CANCHA Y FECHA
         public static string urlReservaEstado  => $"{urlBase}Reservas/horario/"; //ENVIAR HORARIO Y FECHA, HORA
+        public static string urlMisReservaEstado  => $"{urlBase}Reservas/misreservas/"; //ENVIAR USUARIO
         public static string urlCanchas => $"{urlBase}Canchas";
         public static string urlHorario => $"{urlBase}Horarios";
         public static string urlHorarioCancha => $"{urlBase}Horarios/cancha/"; 

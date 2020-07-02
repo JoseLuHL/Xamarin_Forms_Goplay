@@ -105,7 +105,7 @@ namespace PropertyApp.VistaModelo
 
                 return new DelegateCommand(async () =>
                 {
-                    IsBusy = true;
+                   
                     if (string.IsNullOrEmpty(hora))
                     {
                         await Application.Current.MainPage.DisplayAlert("", "Por favor seleccione una hora", "OK");
@@ -121,44 +121,107 @@ namespace PropertyApp.VistaModelo
                     }
 
                     // VERIFICACION DEL NUMERO DE TELEFONO:::
-                    var tel = await Application.Current.MainPage.DisplayPromptAsync("GOPLAY:", "Numero de telefono", "OK", "Cancel", null, 10, keyboard: Keyboard.Numeric, "");
-                    if (tel.Length == 10)
+                    try
                     {
-                        var reserva = new ReservaModelo();
-                        AmazonWSnsn amazonW = new AmazonWSnsn();
-                        var codigo = await amazonW.VerificarTel(tel);
-
-                        Concepto = $"Reserva de cancha {nombre} para la fecha {fecha} hora {hora} por el valor de {precio}";
-                        reserva.Idhorario = horariosSelect.Id;
-                        reserva.Idestado = 6;
-                        reserva.Fecha = horariosSelect.Fecha + " " + DateTime.Now.ToShortTimeString();
-                        reserva.HoraInicio = horariosSelect.Hora;
-                        reserva.HoraFinal = horariosSelect.Precio.ToString();
-                        reserva.Idhorario = horariosSelect.Id;
-                        reserva.Reto = "";
-                        reserva.Tel = tel;
-                        reserva.codigoVerificacion = codigo;
-                        reserva.Usuario = tel;
-                        reserva.Reserva1 = concepto;
-                        codigoVerificacion = codigo;
-
-                        var respuesta = await Application.Current.MainPage.DisplayAlert("", "Debe completar la reserva en 15 minutos \n pasado el tiempo la cancha estara disponible", "OK", "CANCELAR");
-                        if (respuesta)
+                        var tel = await Application.Current.MainPage.DisplayPromptAsync("GOPLAY:", "Numero de telefono", "OK", "Cancel", null, 10, keyboard: Keyboard.Numeric, "");
+                        if (tel.Length == 10)
                         {
-                            await Application.Current.MainPage.Navigation.PushModalAsync(
-                        new ConfirmarTelVista { BindingContext = reserva });
-                        }
+                            IsBusy = true;
+                            var reserva = new ReservaModelo();
+                            AmazonWSnsn amazonW = new AmazonWSnsn();
+                            var codigo = await amazonW.VerificarTel(tel);
 
+                            Concepto = $"Reserva de cancha {nombre} para la fecha {fecha} hora {hora} por el valor de {precio}";
+                            reserva.Idhorario = horariosSelect.Id;
+                            reserva.Idestado = 6;
+                            reserva.Fecha = horariosSelect.Fecha + " " + DateTime.Now.ToShortTimeString();
+                            reserva.HoraInicio = horariosSelect.Hora;
+                            reserva.HoraFinal = horariosSelect.Precio.ToString();
+                            reserva.Idhorario = horariosSelect.Id;
+                            reserva.Reto = "";
+                            reserva.Tel = tel;
+                            reserva.codigoVerificacion = codigo;
+                            reserva.Usuario = tel;
+                            reserva.Reserva1 = concepto;
+                            codigoVerificacion = codigo;
+
+                            var respuesta = await Application.Current.MainPage.DisplayAlert("", "Debe completar la reserva en 15 minutos \n pasado el tiempo la cancha estara disponible", "OK", "CANCELAR");
+                            if (respuesta)
+                            {
+                                await Application.Current.MainPage.Navigation.PushModalAsync(
+                            new ConfirmarTelVista { BindingContext = reserva });
+                            }
+                            IsBusy = false;
+                        }
+                        else
+                        {
+                            await Application.Current.MainPage.DisplayAlert("Error", "Numero de no valido", "OK");
+                            return;
+                        }
+                        IsBusy = false;
                     }
-                    else
+                    catch (Exception)
                     {
-                        await Application.Current.MainPage.DisplayAlert("Error", "Numero de no valido", "OK");
-                        return;
+                        IsBusy = false;
+                        //throw;
                     }
-                    IsBusy = false;
+                   
                 });
             }
         }
+
+
+        //MIS RESERVAS
+
+        private ObservableCollection<ReservaModelo> misReservas;
+
+        public ObservableCollection<ReservaModelo> MisReservas
+        {
+            get => misReservas;
+            set => SetProperty(ref misReservas, value);
+        }
+
+        private string telefono;
+
+        public string Telefono
+        {
+            get => telefono;
+            set => SetProperty(ref telefono, value);
+        }
+
+
+        public ICommand buscarReserca => new Command<string>(async (string usuario) =>
+        {
+            IsBusy = true;
+            var reservas = await goplayServicio.GetDatosAsync<Reserva>(Url.urlMisReservaEstado + usuario);
+            if (reservas.Count > 0)
+            {
+                var reservasModelo = new ObservableCollection<ReservaModelo>();
+                foreach (var item in reservas)
+                {
+                    reservasModelo.Add(new ReservaModelo
+                    {
+                        IdReserva = item.IdReserva,
+                        Fecha = item.Fecha,
+                        HoraFinal = item.HoraFinal,
+                        HoraInicio = item.HoraInicio,
+                        Idestado = item.Idestado,
+                        Idhorario = item.Idhorario,
+                        Reserva1 = item.Reserva1,
+                        Reto = item.Reto,
+                        Usuario = item.Usuario,
+                        IdestadoNavigation = item.IdestadoNavigation,
+                        IdhorarioNavigation = item.IdhorarioNavigation
+                    });
+                }
+                MisReservas = reservasModelo;
+            }
+            IsBusy = false;
+            //await Task.Delay(20);
+        });
+
+
+
         public string Id { get; set; }
         public string Image { get; set; }
         public string SubTitle { get; set; }
@@ -237,20 +300,19 @@ namespace PropertyApp.VistaModelo
                 SetProperty(ref nombre, HorariosSelect.NombreCancha);
                 SetProperty(ref hora, HorariosSelect.Hora);
                 SetProperty(ref precio, HorariosSelect.Precio.ToString("#,##0"));
-
             }
         }
 
-        public ReservaVistaModelo(string id)
+        public ReservaVistaModelo()
         {
 
             goplayServicio = new GoPlayServicio();
-            IdCancha = id;
-            Load();
+            //IdCancha = id;
+            //Load();
             //Task.Run( async () => await Load()) ;
         }
 
-        private async void Load()
+        public async Task Load()
         {
             try
             {
@@ -275,7 +337,7 @@ namespace PropertyApp.VistaModelo
                     variables.NombreCancha = PaginaHorario.PageTitle;
                     variables.Imagen = PaginaHorario.Avatar;
                     variables.Hora = item.ProNombre;
-                    if (string.IsNullOrEmpty(item.ProPrecio))
+                    if (string.IsNullOrEmpty(item.ProPrecio.ToString()))
                         variables.Precio = Convert.ToDecimal(0);
                     else
                         variables.Precio = Convert.ToDecimal(item.ProPrecio);
@@ -284,7 +346,7 @@ namespace PropertyApp.VistaModelo
                     {
                         foreach (var res in reservaCancha)
                         {
-                            var fecha = (res.Fecha.Length > 10) ? res.Fecha.Substring(0, 10).Trim() : res.Fecha;
+                            var fecha = (res.Fecha.Length > 10) ? res.Fecha.Substring(0, 9).Trim() : res.Fecha;
                             if (fecha == fe && item.ProNombre == res.HoraInicio)
                             {
                                 if (res.IdestadoNavigation.Descripcion == "Ocupada")
@@ -314,7 +376,7 @@ namespace PropertyApp.VistaModelo
                                     variables.Color = "Blue";
                                     variables.idEstado = res.IdestadoNavigation.Id;
                                 }
-
+                                break;
                             }
                             else
                             {
@@ -322,6 +384,7 @@ namespace PropertyApp.VistaModelo
                                 variables.idEstado = 3;
                                 variables.Color = "Green";
                             }
+
                         }
                     }
                     else

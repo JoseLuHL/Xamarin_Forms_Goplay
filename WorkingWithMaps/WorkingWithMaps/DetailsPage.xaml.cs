@@ -45,7 +45,10 @@ namespace PropertyApp
 
         private async void BtnReservar_Clicked(object sender, EventArgs e)
         {
-            var contexto = new ReservaVistaModelo(cont.Id);
+            var contexto = new ReservaVistaModelo();
+            contexto.Id = cont.Id;
+            contexto.IdCancha = cont.Id;
+            await contexto.Load();
             var PgReserva = new PgReserva();
             PgReserva.id = cont.Id;
             PgReserva.BindingContext = contexto;

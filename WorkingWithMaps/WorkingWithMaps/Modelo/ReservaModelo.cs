@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using WSGOPLAY.Models;
 
 namespace WorkingWithMaps.Modelo
 {
@@ -21,8 +22,9 @@ namespace WorkingWithMaps.Modelo
         public string Reto { get; set; }
         public string Tel { get; set; }
         public string codigoVerificacion { get; set; }
-
-
+       
+        public virtual EstadoCancha IdestadoNavigation { get; set; }
+        public virtual Horario IdhorarioNavigation { get; set; }
         public string Reserva1 { get; set; }
     }
 }

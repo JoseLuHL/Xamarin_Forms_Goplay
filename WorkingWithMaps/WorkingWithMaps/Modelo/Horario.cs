@@ -7,7 +7,7 @@ namespace WSGOPLAY.Models
     {
         public int Id { get; set; }
         public string ProNombre { get; set; }
-        public string ProPrecio { get; set; }
+        public decimal ProPrecio { get; set; }
         public int? IdCancha { get; set; }
 
         public virtual List<Sinreserva> Sinreserva { get; set; }

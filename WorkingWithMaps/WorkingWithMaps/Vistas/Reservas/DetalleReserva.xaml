@@ -76,6 +76,7 @@
             </ScrollView>
                 <StackLayout Grid.Row="2" Spacing="0" HorizontalOptions="End" VerticalOptions="Start">
                 <Button Command="{Binding ContinuarComando}" 
+                        IsVisible="{Binding  HorariosSelect.IsBoton}"
                         Text="COMPLETAR" 
                         TextColor="White" 
                         Padding="20,5" 
@@ -83,10 +84,8 @@
                         CornerRadius="17" 
                         BackgroundColor="{StaticResource colorBoton}" 
                         HorizontalOptions="End"/>
-                    
                 
-                    
-                <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"/>
+                    <!--<ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"/>-->
             </StackLayout>
     </Grid>
 

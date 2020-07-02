@@ -13,6 +13,7 @@
                  HorizontalOptions="FillAndExpand"
                  x:Name="progress"
                  IsVisible="True"/>
+            
             <WebView x:Name="Webview"
              HeightRequest="1000"
              WidthRequest="1000"

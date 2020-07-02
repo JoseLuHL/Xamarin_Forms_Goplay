@@ -129,7 +129,7 @@ namespace PropertyApp.VistaModelo
         public ICommand misReservas => new Command(
            async () =>
            {
-               await Application.Current.MainPage.Navigation.PushModalAsync(new MisReservas { BindingContext = this });
+               await Application.Current.MainPage.Navigation.PushModalAsync(new MisReservas());
            });
 
         public ICommand IniciarCommand => new Command(async () =>
