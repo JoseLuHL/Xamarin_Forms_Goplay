@@ -45,6 +45,7 @@ namespace PropertyApp
 
         private async void BtnReservar_Clicked(object sender, EventArgs e)
         {
+            IsBusy = true;
             var contexto = new ReservaVistaModelo();
             contexto.Id = cont.Id;
             contexto.IdCancha = cont.Id;
@@ -53,6 +54,7 @@ namespace PropertyApp
             PgReserva.id = cont.Id;
             PgReserva.BindingContext = contexto;
             await Navigation.PushModalAsync(PgReserva);
+            IsBusy = false;
         }
 
         private void TapGestureRecognizer_Tapped(object sender, EventArgs e)

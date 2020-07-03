@@ -10,6 +10,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using WorkingWithMaps.Modelo;
+using WorkingWithMaps.Servicio;
 using WSGOPLAY.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -20,19 +21,14 @@ namespace WorkingWithMaps.Vistas.Reservas
     public partial class PagosVista : ContentPage
     {
         ReservaModelo Contexto => ((ReservaModelo)BindingContext);
-
-        //public string precio { get; set; }
-        //public string description { get; set; }
         public PagosVista()
         {
             InitializeComponent();
             Webview.IsVisible = true;
-
         }
 
         protected async override void OnAppearing()
         {
-            //var c = Contexto;
             base.OnAppearing();
             await progress.ProgressTo(0.9, 900, Easing.SpringIn);
             await TasAsync();
@@ -66,87 +62,21 @@ namespace WorkingWithMaps.Vistas.Reservas
 
         async Task Epayco(string refe)
         {
-            var contenido = new EpayCoModelo();
-            var cliente = new HttpClient();
-            GoPlayServicio playServicio = new GoPlayServicio();
-            var urlapp = "https://secure.epayco.co/validation/v1/reference/" + refe;
-            var http = new HttpClient();
-            var res = await http.GetAsync(urlapp);
-            var response = await res.Content.ReadAsStringAsync();
-            contenido = JsonConvert.DeserializeObject<EpayCoModelo>(response);
-
-            var goplay = new GoPlayServicio();
-            Contexto.Reto = refe;
-
-
-            if (contenido.data.x_response == "Aceptada")
+            var epayco = await ReservasEpayCo.CmabiarEstadoAsync(refe, Contexto);
+            if (!string.IsNullOrEmpty(epayco))
             {
-                //Acuatular el estado de la cancha
-                await DisplayAlert("", "Cancha reservada", "OK");
-                Contexto.Idestado = 2;
-                var ope = await goplay.PutActualizarAsync(Contexto, Url.urlReserva + "/" + Contexto.IdReserva);
-                if (ope.Estado == false)
-                {
-                    Contexto.IsBusy = false;
-                    await DisplayAlert("", "Lo sentomos al parecer hay un poblema \n vuelva a intentarlo", "OK");
-                }
-                //
+                await DisplayAlert("Pagos", epayco, "OK");
             }
-
-            else if (contenido.data.x_response == "Pendiente")
-            {
-                //Acuatular el estado de la cancha
-                await DisplayAlert("", "Si en 40 minutos no ha completado el pago \n su reserva sera cancelada", "OK");
-                Contexto.Idestado = 1;
-                var ope = await goplay.PutActualizarAsync(Contexto, Url.urlReserva+"/"+ Contexto.IdReserva);
-                if (ope.Estado == false)
-                {
-                    Contexto.IsBusy = false;
-                    await DisplayAlert("", "Lo sentomos al parecer hay un poblema \n vuelva a intentarlo", "OK");
-                    return;
-                }
-            }
-
-            else if (contenido.data.x_response == "Rechazada")
-            {
-                //Eliminar la reserva
-                await DisplayAlert("", "El pago ha sido rechachazado \n Vulava a intentarlo", "OK");
-                var ope = await goplay.DeleteAsync(Url.urlReserva + "/" + Contexto.IdReserva);
-                if (ope.Estado == false)
-                {
-                    Contexto.IsBusy = false;
-                    await DisplayAlert("", "Lo sentomos al parecer hay un poblema \n vuelva a intentarlo", "OK");
-                    return;
-                }
-            }
-
-            else
-            {
-                //Eliminar la reserva
-                await DisplayAlert("", "El pago ha sido rechachazado \n Vulava a intentarlo", "OK");
-                var ope = await goplay.DeleteAsync(Url.urlReserva + "/" + Contexto.IdReserva);
-                if (ope.Estado == false)
-                {
-                    Contexto.IsBusy = false;
-                    await DisplayAlert("", "Lo sentomos al parecer hay un poblema \n vuelva a intentarlo", "OK");
-                    return;
-                }
-            }
-
-
         }
 
         async Task TasAsync()
         {
             Webview.IsVisible = false;
             await Task.Delay(2000);
-            //progress.IsVisible = false;
             Webview.IsVisible = true;
-
-            var url = $"http://192.168.1.10:8080/prueba/prueba.php?hora={Contexto.HoraInicio}&horario={Contexto.Idhorario}&tel={Contexto.Tel}&precio={Contexto.HoraFinal}&descripcion={Contexto.Reserva1.Replace(" ", "%20")}";
+            var url1 = $"http://192.168.1.10:8080/prueba/prueba.php?hora={Contexto.HoraInicio}&horario={Contexto.Idhorario}&tel={Contexto.Tel}&precio={Contexto.HoraFinal}&descripcion={Contexto.Reserva1.Replace(" ", "%20")}";
+            var url = $"http://bismarckaragon.com/jose/prueba.php?hora={Contexto.HoraInicio}&horario={Contexto.Idhorario}&tel={Contexto.Tel}&precio={Contexto.HoraFinal}&descripcion={Contexto.Reserva1.Replace(" ", "%20")}";
             Webview.Source = url;
-            //Webview.Source = "http://192.168.1.10:8080/sesiones-master/sesion.php";
-
         }
     }
 }

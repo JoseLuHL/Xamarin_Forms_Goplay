@@ -41,20 +41,14 @@ namespace WorkingWithMaps.Vistas.Reservas
             }
             try
             {
-                var es = await ReservaEstadoStatic.Estado(contexto.Idhorario, contexto.Fecha, contexto.HoraInicio);
-                if (es == false)
-                {
-                    var goplay = new GoPlayServicio();
-                    var res = await goplay.PostGuardarAsync(contexto, Url.urlReserva);
+                //var es = await ReservaEstadoStatic.Estado(contexto.Idhorario, contexto.Fecha, contexto.HoraInicio);
+                //if (es)
+                //{
 
-                    if (res == null)
-                    {
-                        contexto.IsBusy = false;
-                        await DisplayAlert("", "Lo sentomos al parecer hay un poblema \n vuelva a intentarlo", "OK");
-                        return;
-                    }
-                    contexto.IdReserva = res.IdReserva;
-                }
+                //    contexto.IsBusy = false;
+                //    await DisplayAlert("", "Lo sentomos al parecer la cancha no esta disponible \n vuelva a intentarlo", "OK");
+                //    return;
+                //}
 
                 await Application.Current.MainPage.Navigation.PushModalAsync(new PagosVista { BindingContext = contexto });
             }
@@ -64,6 +58,7 @@ namespace WorkingWithMaps.Vistas.Reservas
                 //await Application.Current.MainPage.Navigation.PushModalAsync(new PagosVista { BindingContext = contexto });
                 contexto.IsBusy = false;
             }
+
             contexto.IsBusy = false;
         }
     }

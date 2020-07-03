@@ -4,7 +4,7 @@ using System.Text;
 
 namespace WorkingWithMaps.Modelo
 {
-    class EpayCoModelo
+   public  class EpayCoModelo
     {
         public bool success { get; set; }
         public string title_response { get; set; }
@@ -13,7 +13,7 @@ namespace WorkingWithMaps.Modelo
         public EpayCoModeloData data { get; set; }
 
     }
-    class EpayCoModeloData
+   public class EpayCoModeloData
     {
         public string x_transaction_date { get; set; }
         public string x_response { get; set; }

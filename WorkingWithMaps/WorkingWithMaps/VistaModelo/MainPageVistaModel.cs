@@ -196,7 +196,7 @@ namespace PropertyApp.VistaModelo
             IsOcupado = true;
             GoPlayServicio = new GoPlayServicio();
             PropertyList = new ObservableCollection<Property>();
-            Load();
+            _ = Load();
             IsOcupado = false;
         }
         private List<PropertyType> GetPropertyTypes()
@@ -217,7 +217,7 @@ namespace PropertyApp.VistaModelo
         {
             try
             {
-                IsOcupado = true;
+                IsBusy = true;
                 var personList = await App.SQLiteDb.GetItemsAsync();
                 if (personList.Count > 0)
                 {
@@ -242,9 +242,10 @@ namespace PropertyApp.VistaModelo
             }
             catch (Exception ex)
             {
+                
                 await Application.Current.MainPage.DisplayAlert("Main", ex.Message, "OK");
             }
-
+            IsBusy = false;
         }
 
         private ObservableCollection<Property> CargarCanchas(ObservableCollection<WoPages> canchas)

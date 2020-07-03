@@ -2,11 +2,14 @@
 using Amazon.SimpleNotificationService.Util;
 using BurgerSpot.Views;
 using PropertyApp.Modelo;
+using PropertyApp.Servicio;
+using PropertyApp.url;
 using PropertyApp.VistaModelo;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 using WorkingWithMaps.Servicio;
+using WSGOPLAY.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -41,6 +44,7 @@ namespace PlacesApp.Views
             {
                 Contexto.IsBusy = true;
                 var item = e.SelectedItem as HorarioModelo;
+                //var item = CambioModelo.HorarioModelo(item1);
 
                 if (item==null)
                 {
@@ -52,9 +56,39 @@ namespace PlacesApp.Views
                 Contexto.HorariosSelect = item;
                 if (item.Estado != "Disponible")
                 {
-                    Contexto.IsBusy = false;
-                    await DisplayAlert("", "El horario no esta disponible", "OK");
-                    return;
+                    //Contexto.IsBusy = false;
+                    if (item.Estado == "En reserva")
+                    {
+                        var estado1 = await ReservaEstadoStatic.EstadoDisponible(item.Id, item.Fecha, item.Hora);
+                        //await DisplayAlert("", estado1.IdReserva.ToString(), "OK");
+                        if (estado1!=null)
+                        {
+                            //Eliminar la reserva
+                            //await DisplayAlert("", "El pago ha sido rechachazado \n Vulava a intentarlo", "OK");
+                            //GoPlayServicio playServicio = new GoPlayServicio();
+                            //var ope = await playServicio.DeleteAsync(Url.urlReserva + "/" + estado1.IdReserva);
+                            var ope = await OperacionesCRUD.EliminarAsync(Url.urlReserva + "/" + estado1.IdReserva);
+                            await Contexto.Load();
+                            if (ope == false)
+                            {
+                                Contexto.IsBusy = false;
+                                await DisplayAlert("", "Lo sentomos al parecer hay un poblema \n vuelva a intentarlo", "OK");
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            Contexto.IsBusy = false;
+                            await DisplayAlert("", "El horario no esta disponible", "OK");
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        Contexto.IsBusy = false;
+                        await DisplayAlert("", "El horario no esta disponible", "OK");
+                        return;
+                    }
                 }
 
                 var estado = await ReservaEstadoStatic.Estado(item.Id, item.Fecha, item.Hora);

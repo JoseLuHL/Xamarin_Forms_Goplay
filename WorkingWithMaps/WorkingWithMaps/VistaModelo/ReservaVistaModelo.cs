@@ -145,13 +145,27 @@ namespace PropertyApp.VistaModelo
                             reserva.Reserva1 = concepto;
                             codigoVerificacion = codigo;
 
-                            var respuesta = await Application.Current.MainPage.DisplayAlert("", "Debe completar la reserva en 15 minutos \n pasado el tiempo la cancha estara disponible", "OK", "CANCELAR");
-                            if (respuesta)
+                            var es = await ReservaEstadoStatic.Estado(reserva.Idhorario, reserva.Fecha, reserva.HoraInicio);
+                            if (es == false)
                             {
+                                //var goplay = new GoPlayServicio();
+                                //var res = await goplay.PostGuardarAsync(reserva, Url.urlReserva);
+                                var res = await OperacionesCRUD.GuardarAsync(reserva, Url.urlReserva);
+                                if (res == null)
+                                {
+                                    //reserva.IsBusy = false;
+                                    IsBusy = false;
+                                    await  Application.Current.MainPage.DisplayAlert("", "Lo sentomos al parecer la cancha no esta disponible \n vuelva a intentarlo", "OK");
+                                    return;
+                                }
+                                reserva.IdReserva = res.IdReserva;
+                            }
+
+                            var respuesta = await Application.Current.MainPage.DisplayAlert("", "Debe completar la reserva en 15 minutos \n pasado el tiempo la cancha estara disponible", "OK", "CANCELAR");
+                            
                                 await Application.Current.MainPage.Navigation.PushModalAsync(
                             new ConfirmarTelVista { BindingContext = reserva });
-                            }
-                            IsBusy = false;
+                            
                         }
                         else
                         {

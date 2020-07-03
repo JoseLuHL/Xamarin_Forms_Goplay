@@ -6,15 +6,13 @@
              mc:Ignorable="d"
              x:Class="WorkingWithMaps.Vistas.Reservas.ConfirmarTelVista">
     <ContentPage.Content>
-        <AbsoluteLayout Padding="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+        <AbsoluteLayout Padding="0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
         
             <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" >
-            <Label Text="" x:Name="Lblmensaje" HorizontalOptions="CenterAndExpand"/>
-            <Label Text="Por favor ingrese el codigo de verificacion" FontSize="Large"/>
-            <Entry FontSize="35" x:Name="TxtCodigoverificacion"></Entry>
-            <Button Text="Continuar" x:Name="BtnContinuar" Clicked="BtnContinuar_Clicked"></Button>
-
-            <!--<ActivityIndicator IsRunning="{Binding IsBusy}"/>-->
+                <Label Text="" x:Name="Lblmensaje" HorizontalOptions="CenterAndExpand"/>
+                <Label HorizontalOptions="CenterAndExpand" Text="Por favor ingrese el codigo de verificacion" FontSize="Large"/>
+                <Entry HorizontalOptions="CenterAndExpand" FontSize="35" x:Name="TxtCodigoverificacion"></Entry>
+                <Button Text="Continuar" x:Name="BtnContinuar" Clicked="BtnContinuar_Clicked"></Button>
         </StackLayout>
 
         <ContentView IsVisible="{Binding IsBusy}"  BackgroundColor="#C0808080" Padding="10, 0" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">

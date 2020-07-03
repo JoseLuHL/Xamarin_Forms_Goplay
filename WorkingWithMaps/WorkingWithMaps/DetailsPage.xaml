@@ -7,12 +7,13 @@
              xmlns:st="clr-namespace:Plugin.SharedTransitions;assembly=Plugin.SharedTransitions"
              mc:Ignorable="d" NavigationPage.HasNavigationBar="False"
              x:Class="PropertyApp.DetailsPage">
+    <AbsoluteLayout Padding="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
 
-    <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="1.2*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="Auto"/>
+        <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <Grid.RowDefinitions>
+            <RowDefinition Height="5.5*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Image Aspect="AspectFill" Source="{Binding Property.Image}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" st:Transition.Name="PropertyImage"/>
         <ImageButton BackgroundColor="Transparent" Aspect="Fill" Source="back.png" Margin="25" WidthRequest="20" HeightRequest="13" 
@@ -77,27 +78,56 @@
                 </StackLayout>
             </ScrollView>
         </pv:PancakeView>
-        <pv:PancakeView Grid.Row="2" HeightRequest="50" BackgroundGradientAngle="270" >
-            <pv:PancakeView.BackgroundGradientStops>
-                <pv:GradientStopCollection>
-                    <pv:GradientStop Color="{StaticResource colorBoton}" Offset="0" />
-                    <pv:GradientStop Color="{StaticResource colorBoton}" Offset="0.5" />
-                    <pv:GradientStop Color="{StaticResource colorBoton}" Offset="1" />
-                </pv:GradientStopCollection>
-            </pv:PancakeView.BackgroundGradientStops>
-            <Button Style="{StaticResource fuenteButton}" Text="Reservar" 
-                    BackgroundColor="Transparent"
-                    WidthRequest="200"
-                    BorderColor="Transparent"
-                   TextColor="White" 
-                   FontSize="15" 
-                   x:Name="BtnReservar"
-                   Clicked="BtnReservar_Clicked"
-                   HorizontalOptions="CenterAndExpand">
-                <!--<Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding ReservaComando}" />
-                </Label.GestureRecognizers>-->
-            </Button>
-        </pv:PancakeView>
-    </Grid>
+            <StackLayout BackgroundColor="Red"  
+                         Grid.Row="2" 
+                         HeightRequest="100"  
+                         AbsoluteLayout.LayoutFlags="PositionProportional"   
+          AbsoluteLayout.LayoutBounds="1,1,AutoSize,AutoSize" >
+                <!--<pv:PancakeView
+                        AbsoluteLayout.LayoutBounds=".5,0,100,25"
+                        AbsoluteLayout.LayoutFlags="PositionProportional"
+                        HeightRequest="50" 
+                        VerticalOptions="End" 
+                        BackgroundGradientAngle="270">
+                    <pv:PancakeView.BackgroundGradientStops>
+                        <pv:GradientStopCollection>
+                            <pv:GradientStop Color="{StaticResource colorBoton}" Offset="0" />
+                            <pv:GradientStop Color="{StaticResource colorBoton}" Offset="0.5" />
+                            <pv:GradientStop Color="{StaticResource colorBoton}" Offset="1" />
+                        </pv:GradientStopCollection>
+                    </pv:PancakeView.BackgroundGradientStops>-->
+                <Button Style="{StaticResource fuenteButton}" 
+                       
+                           Text="Reservar" 
+                           BorderColor="Transparent"
+                           BackgroundColor="{StaticResource colorBoton}"
+                           TextColor="White" 
+                           FontSize="15" 
+                           HeightRequest="50"
+                           x:Name="BtnReservar"
+                           Clicked="BtnReservar_Clicked"
+                           VerticalOptions="FillAndExpand"/>
+
+                <!--</pv:PancakeView>-->
+
+                <!--<BoxView Color="Olive"  AbsoluteLayout.LayoutBounds="1,.5, 25, 100"
+                AbsoluteLayout.LayoutFlags="PositionProportional" />
+                <BoxView Color="Red" AbsoluteLayout.LayoutBounds="0,.5,25,100"
+                AbsoluteLayout.LayoutFlags="PositionProportional" />
+                <BoxView Color="Blue" AbsoluteLayout.LayoutBounds=".5,0,100,25"
+                AbsoluteLayout.LayoutFlags="PositionProportional" />-->
+            </StackLayout>
+        </Grid>
+
+        <ContentView IsVisible="{Binding IsBusy}"  BackgroundColor="#C0808080" Padding="10, 0" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+            <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                <StackLayout Orientation="Vertical" HeightRequest="150" WidthRequest="200" BackgroundColor="Transparent">
+                    <ActivityIndicator  IsRunning="{Binding IsBusy}" Margin="0,50,0,0" VerticalOptions="Center" HorizontalOptions="Center" Color="Black" WidthRequest="30" HeightRequest="30" ></ActivityIndicator>
+                    <Label x:Name="lblLoadingText" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Center" VerticalTextAlignment="Center" Text="Cargando..."></Label>
+                </StackLayout>
+            </StackLayout>
+        </ContentView>
+        <!--<Button AbsoluteLayout.LayoutBounds="115,150,100,100" BackgroundColor="#C3E9FB" TextColor="#F00DCB" Text="Button Test" />-->
+
+    </AbsoluteLayout>
 </ContentPage>

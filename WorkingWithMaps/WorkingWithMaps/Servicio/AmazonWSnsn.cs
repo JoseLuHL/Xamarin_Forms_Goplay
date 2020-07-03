@@ -10,8 +10,8 @@ namespace WorkingWithMaps.Servicio
     {
         public async Task<string> VerificarTel(string cel)
         {
-            //var Key = "AKIAIJAV3SIFSIKGKVIQ";
-            //var secre = "W+SY04nokazbszs1Pt7fxy0x89K8qsXZJ1eWXKR9";
+            //var Key = "AKIAJ5GD4RUHUY5LKBZA";
+            //var secre = "mOUhq4qGt1AKhI18o0uFKlvJ/dEz8WNVu6Kbr7GV";
             //AmazonSimpleNotificationServiceClient snsClient = new AmazonSimpleNotificationServiceClient(Key, secre, Amazon.RegionEndpoint.USWest2);
             //PublishRequest pubRequest = new PublishRequest();
             var codigo = GenerarCodigoVerificacion();

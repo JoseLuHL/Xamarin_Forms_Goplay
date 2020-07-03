@@ -1,8 +1,10 @@
 ﻿using BurgerSpot.Views;
 using PropertyApp.Modelo;
+using PropertyApp.url;
 using PropertyApp.VistaModelo;
 using System;
 using WorkingWithMaps.Modelo;
+using WorkingWithMaps.Servicio;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -37,6 +39,7 @@ namespace PlacesApp.Views
         {
             try
             {
+                misReservasVistaModelo.IsBusy = true;
                 ReservaModelo datos = e.CurrentSelection[0] as ReservaModelo;
 
                 if (datos == null)
@@ -56,18 +59,32 @@ namespace PlacesApp.Views
                 };
                 if (horario.idEstado == 6)
                 {
-                    horario.IsBoton = true;
+                    var estado1 = await ReservaEstadoStatic.EstadoDisponible(horario.Id, horario.Fecha, horario.Hora);
+                    //await DisplayAlert("", estado1.IdReserva.ToString(), "OK");
+                    if (estado1 != null)
+                    {
+                        if (estado1.Usuario==horario.Usuario)
+                        {
+                            horario.IsBoton = true;
+                        }
+                        else
+                        {
+                            misReservasVistaModelo.IsBusy = false;
+                            misReservasVistaModelo.buscarReserca.Execute(SearchBar.Text);
+                            return;
+                        }
+                    }
                 }
 
+                misReservasVistaModelo.IsBusy = false;
                 misReservasVistaModelo.HorariosSelect = horario;
                 await Navigation.PushModalAsync(new DetalleReserva { BindingContext = misReservasVistaModelo });
-                //await DisplayAlert("", datos.IdhorarioNavigation.IdCanchaNavigation.PageTitle, "OK");
+
             }
             catch (Exception ex)
             {
                 await DisplayAlert("", ex.ToString(), "OK");
             }
-
         }
     }
 }

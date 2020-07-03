@@ -10,6 +10,7 @@ namespace PropertyApp.url
         private const string urlBase3 = "http://wsgoplay-test.us-west-2.elasticbeanstalk.com/api/";
         private const string urlBase = "http://wsgoplay-test.us-west-2.elasticbeanstalk.com/api/";
 
+
         public static string urlReserva  => $"{urlBase}Reservas";
         public static string urlReservaCancha  => $"{urlBase}Reservas/cancha/"; //ENVIAR CANCHA Y FECHA
         public static string urlReservaEstado  => $"{urlBase}Reservas/horario/"; //ENVIAR HORARIO Y FECHA, HORA

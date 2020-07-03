@@ -32,22 +32,26 @@ namespace PropertyApp
 
         protected override async void OnAppearing()
         {
-            if (contexto.IsBusy)
-            {
-                contexto.IsOcupado = true;
-                await Task.Delay(2000);
-                contexto.IsOcupado = false;
-            }
-            contexto.IsBusy = false;
+            //if (contexto.IsBusy)
+            //{
+            //    contexto.IsOcupado = true;
+            //    await Task.Delay(2000);
+            //    contexto.IsOcupado = false;
+            //}
+            //contexto.IsBusy = false;
         }
 
         private void BuscarCancha_TextChanged(object sender, TextChangedEventArgs e)
         {
+            contexto.IsBusy = true;
             contexto.BuscarCanchaCommando.Execute(buscarCancha.Text);
+            contexto.IsBusy = false;
         }
 
-        private void SelectType(object sender, EventArgs e)
+        private async void SelectType(object sender, EventArgs e)
         {
+            contexto.IsBusy = true;
+            await Task.Delay(1000);
             var view = sender as View;
             var parent = view.Parent as StackLayout;
 
@@ -80,6 +84,7 @@ namespace PropertyApp
             {
                 contexto.misReservas.Execute(false);
             }
+            contexto.IsBusy = false;
         }
 
         private void ChangeTextColor(View child, string hexColor)
@@ -92,8 +97,10 @@ namespace PropertyApp
 
         private async void PropertySelected(object sender, EventArgs e)
         {
+            contexto.IsBusy = true;
             var property = (sender as View).BindingContext as WorkingWithMaps.Modelo.Property;
             await Navigation.PushAsync(new DetailsPage(property));
+            contexto.IsBusy = false;
         }
 
         private async void Button_Clicked(object sender, EventArgs e)
@@ -104,9 +111,11 @@ namespace PropertyApp
 
         private async void CerrarSesion_Clicked(object sender, EventArgs e)
         {
+            contexto.IsBusy = true;
             contexto.IsLogueadoNO = false;
             await App.SQLiteDb.DeleteItemAsync();
             contexto.IsLogueado = true;
+            contexto.IsBusy = false;
         }
 
         private async void BtnConfiguracion_Tapped_1(object sender, EventArgs e)
